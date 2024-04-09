@@ -1,0 +1,23 @@
+#!/usr/bin/expect
+
+set timeout 300
+
+# Asume que GESTION está definido como una variable de entorno antes de ejecutar este script
+set gestion $env(GESTION)
+
+# Lanza el comando de instalación de Guarani
+spawn $gestion/bin/guarani instalar
+
+expect {
+    "Ya existe la base de datos" {
+        send "s\r"
+        exp_continue
+    }
+    "Antes de borrar el esquema/base." {
+        send "n\r"
+        exp_continue
+    }
+    eof {
+        # Manejo del final del archivo o cierre de la conexión
+    }
+}

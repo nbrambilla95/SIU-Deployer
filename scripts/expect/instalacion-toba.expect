@@ -1,0 +1,83 @@
+#!/usr/bin/expect
+
+# Configura un timeout largo si es necesario
+set timeout 300
+
+# Asume que GESTION está definido como una variable de entorno antes de ejecutar este script
+set gestion $env(GESTION)
+
+# Lanza el proceso de instalación
+spawn $gestion/bin/toba instalacion instalar
+
+# Define las variables para las respuestas
+set alias "toba"
+set numDesarrollador "0"
+set esProduccion "n"
+set nombreInstalacion "toba-tesis"
+set ubicacionPostgres "databases-pg-guarani-test-2.psi.unc.edu.ar"
+set puertoPostgres "5432"
+set usuarioPostgres "us_iua_tesis_2"
+set clavePostgres "Prohijwila"
+set baseDatos "g3_iua_tesis"
+set schema "desarrollo"
+set claveToba "toba"
+set modeloDatos "s"
+
+# Maneja los prompts de manera flexible
+expect {
+    "Nombre del Alias" {
+        send "$alias\r"
+        exp_continue
+    }
+    "Por favor, ingrese su número de desarrollador" {
+        send "$numDesarrollador\r"
+        exp_continue
+    }
+    "Se trata de una instalacion de producción?" {
+        send "$esProduccion\r"
+        exp_continue
+    }
+    "Nombre de la instalación" {
+        send "$nombreInstalacion\r"
+        exp_continue
+    }
+    "PostgreSQL - Ubicación" {
+        send "$ubicacionPostgres\r"
+        exp_continue
+    }
+    "PostgreSQL - Puerto" {
+        send "$puertoPostgres\r"
+        exp_continue
+    }
+    "PostgreSQL - Usuario" {
+        send "$usuarioPostgres\r"
+        exp_continue
+    }
+    "PostgreSQL - Clave" {
+        send "$clavePostgres\r"
+        exp_continue
+    }
+    "PostgreSQL - Base de datos" {
+        send "$baseDatos\r"
+        exp_continue
+    }
+    "Nombre del schema a usar" {
+        send "$schema\r"
+        exp_continue
+    }
+    "Toba - Clave" {
+        send "$claveToba\r"
+        exp_continue
+    }
+    -re "La base '.*' ya contiene un schema '.*', puede ingresar un nombre de base distinto sino quiere sobrescribir los datos actuales:" {
+        send "\r"
+	exp_continue
+    }
+    -re "Ya existe el modelo de datos, Desea reemplazarlo?" {
+        send "$modeloDatos\r"
+        exp_continue
+    }
+    eof {
+        # Manejo del final del archivo o cierre de la conexión
+    }
+}
