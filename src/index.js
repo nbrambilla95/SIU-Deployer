@@ -49,3 +49,15 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+document.getElementById('deploy').addEventListener('click', () => {
+});
+
+document.getElementById('update').addEventListener('click', () => {
+});
+
+document.getElementById('database').addEventListener('click', () => {
+  
+});
+
+document.getElementById('settings').addEventListener('click', () => {
+});
