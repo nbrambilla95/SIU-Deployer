@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+const { ipcMain } = require('electron');
 const path = require('node:path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -13,11 +14,18 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
     },
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
+
+  mainWindow.webContents.once('did-finish-load', () => {
+    ipcMain.on('deploy-clicked', () => {
+      mainWindow.webContents.send('toggle-deploy-options', true);
+    });
+  });
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -49,15 +57,3 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-document.getElementById('deploy').addEventListener('click', () => {
-});
-
-document.getElementById('update').addEventListener('click', () => {
-});
-
-document.getElementById('database').addEventListener('click', () => {
-  
-});
-
-document.getElementById('settings').addEventListener('click', () => {
-});
