@@ -29,8 +29,30 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('database-options').style.display = 'none';
     });
 
+    // Accion al presionar el boton Gestion
     document.getElementById('gestion').addEventListener('click', () => {
         window.api.runScript('./scripts/bash/hello-world.sh', (output) => {
+            console.log(output);
+        });
+    });
+
+    // Accion al presionar el boton Autogestion
+    document.getElementById('autogestion').addEventListener('click', () => {
+        window.api.runScript('./scripts/bash/autogestion-deploy.sh', (output) => {
+            console.log(output);
+        });
+    });
+
+    // Accion al presionar el boton Preinscripcion
+    document.getElementById('preinscripcion').addEventListener('click', () => {
+        window.api.runScript('./scripts/bash/preinscripcion-deploy.sh', (output) => {
+            console.log(output);
+        });
+    });
+
+    // Accion al presionar el boton Kolla
+    document.getElementById('kolla').addEventListener('click', () => {
+        window.api.runScript('./scripts/bash/kolla-deploy.sh', (output) => {
             console.log(output);
         });
     });
