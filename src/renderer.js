@@ -28,4 +28,10 @@ window.addEventListener('DOMContentLoaded', () => {
         mainButtons.style.display = 'flex';
         document.getElementById('database-options').style.display = 'none';
     });
+
+    document.getElementById('gestion').addEventListener('click', () => {
+        window.api.runScript('./scripts/bash/hello-world.sh', (output) => {
+            console.log(output);
+        });
+    });
 });

@@ -15,6 +15,8 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
+      sandbox: false,
+      enableRemoteModule: false
     },
   });
 
@@ -57,3 +59,8 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+// Si __dirname es /home/tu_usuario/tu_proyecto y tu archivo es index.js
+console.log(__dirname); // Imprime /home/tu_usuario/tu_proyecto
+
+// Si usas path.join para unir __dirname con 'preload.js'
+console.log(path.join(__dirname, 'preload.js')); // Imprime /home/tu_usuario/tu_proyecto/preload.js
