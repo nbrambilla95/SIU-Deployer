@@ -1,2 +1,3 @@
 #!/bin/bash
-echo "Hola Mundo desde el script!"
+
+  echo "Mensaje actualizado $(date)"

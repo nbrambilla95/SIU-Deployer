@@ -4,10 +4,10 @@
     color: lime;
     padding: 10px;
     font-family: 'Consolas', 'Courier New', monospace;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: calc(100vh - 20px);
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
     border: none;
-    margin: 0;
+    outline: none;
+    resize: none;
     box-sizing: border-box;
 }
