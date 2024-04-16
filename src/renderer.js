@@ -57,3 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.getElementById('gestion').addEventListener('click', () => {
+    window.api.openConsoleWindow('./scripts/bash/hello-world.sh');
+});

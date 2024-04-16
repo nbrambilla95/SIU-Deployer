@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #console-output {
+      white-space: pre-wrap;
+      background-color: rgb(255, 255, 255);
+      color: lime;
+      padding: 10px;
+      font-family: 'Consolas', 'Courier New', monospace;
+    }
+  </style>
+</head>
+<body>
+  <div id="console-output"></div>
+  <script>
+    window.consoleApi.receive('console-output', (data) => {
+      const outputElement = document.getElementById('console-output');
+      outputElement.textContent += `${data}\n`;
+    });
+  </script>
+</body>
+</html>

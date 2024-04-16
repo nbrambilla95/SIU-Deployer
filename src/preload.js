@@ -29,5 +29,8 @@ contextBridge.exposeInMainWorld('api', {
             }
             callback(stdout);
         });
+    },
+    openConsoleWindow: (scriptPath) => {
+        ipcRenderer.send('open-console', scriptPath);
     }
 });
