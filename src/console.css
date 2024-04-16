@@ -1,13 +1,15 @@
 #console-output {
     white-space: pre-wrap;
     background-color: #000;
-    color: lime;
+    color: #0f0;
     padding: 10px;
     font-family: 'Consolas', 'Courier New', monospace;
-    overflow-y: auto;
-    height: calc(100vh - 20px);
-    border: none;
-    outline: none;
-    resize: none;
-    box-sizing: border-box;
+    height: 95vh;
+    overflow-y: scroll;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
 }

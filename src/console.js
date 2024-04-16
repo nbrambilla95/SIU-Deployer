@@ -1,8 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
-    window.consoleApi.receive('console-output', (data) => {
+window.addEventListener('DOMContentLoaded', () => {
+  window.consoleApi.receive('console-output', (data) => {
       const outputElement = document.getElementById('console-output');
       if (outputElement) {
-        outputElement.textContent += `${data}\n`;
+          outputElement.textContent += `${data}\n`;
       }
-    });
   });
+});
