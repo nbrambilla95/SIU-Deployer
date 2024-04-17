@@ -1,2 +1,5 @@
 #!/bin/bash
-echo "Hola Mundo desde el script!"
+while true; do
+  echo "Mensaje actualizado $(date)"
+  sleep 2
+done
