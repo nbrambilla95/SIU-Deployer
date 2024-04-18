@@ -1,0 +1,8 @@
+{
+  "host": "tesis",
+  "dbname": "database-tesis",
+  "scheme": "tesis",
+  "port": "96",
+  "dbusername": "red",
+  "dbpassword": "12345"
+}

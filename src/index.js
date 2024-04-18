@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
 const { spawn } = require('child_process');
+const fs = require('fs');
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -56,5 +57,22 @@ ipcMain.on('open-console', (event, scriptPath) => {
     script.on('close', (code) => {
       consoleWindow.webContents.send('console-output', `Script finished with code ${code}`);
     });
+  });
+});
+
+// Listener de la funcion 'save-database'.
+ipcMain.on('save-database', (event, data) => {
+  // Convertir data a un JSON string
+  const jsonData = JSON.stringify(data, null, 2); // Con null y 2 genera el formato pretty
+
+  // Escribir dato a un archivo
+  fs.writeFile('/home/santiago/Documents/Tesis/SIU-Deployer/database_config.json', jsonData, (err) => {
+      if (err) {
+          console.error('Error writing to file:', err);
+          event.reply('save-to-file-reply', { success: false, error: err.message });
+      } else {
+          console.log('Data saved to file successfully.');
+          event.reply('save-to-file-reply', { success: true });
+      }
   });
 });
