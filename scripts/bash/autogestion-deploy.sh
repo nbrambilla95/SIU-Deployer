@@ -12,13 +12,13 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 cd $PROJECT/instalacion && cp config_template.php config.php
 cd $PROJECT/instalacion && cp login_template.php login.php
 
-DBNAME="DBNAME"
+DBNAME="toba_3"
 SCHEMA="negocio"
 SCHEMA_TOBA="desarrollo"
-HOST="HOST"
+HOST="tesis.psi.unc.edu.ar"
 PORT=5432
-PDO_USER="PDO_USER"
-PDO_PASSWD="PDO_PASSWD"
+PDO_USER="prueba"
+PDO_PASSWD="1234"
 CONFIG_PHP="$PROJECT/instalacion/config.php"
 
 sed -i "s/'dbname' => '.*'/'dbname' => '$DBNAME'/" $CONFIG_PHP
