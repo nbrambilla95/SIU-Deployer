@@ -1,0 +1,8 @@
+{
+  "host": "prueba.unc.edu.ar",
+  "dbname": "toba_prueba",
+  "scheme": "business",
+  "port": "8080",
+  "dbusername": "tesis",
+  "dbpassword": "siste"
+}

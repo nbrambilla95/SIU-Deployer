@@ -1,6 +1,6 @@
 # SIU-Deployer
 
-SIU-Deployer es una aplicación construida con Electron para facilitar el despliegue y la administración del Ecosistema SIU.
+Branch DEVSS de SIU-Deployer: aplicación construida con Electron para facilitar el despliegue y la administración del Ecosistema SIU.
 
 ## Instalación
 
