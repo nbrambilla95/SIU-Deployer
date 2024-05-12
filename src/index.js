@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Notification } = require('electron');
 const path = require('node:path');
 const { spawn } = require('child_process');
 const fs = require('fs');
@@ -10,11 +10,11 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
-      enableRemoteModule: false,
     },
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  mainWindow.webContents.openDevTools();
   console.log('Electron version:', process.versions.electron);
   console.log('Chromium version:', process.versions.chrome);
 };
@@ -58,7 +58,18 @@ ipcMain.on('open-console', (event, scriptPath) => {
 
     script.on('close', (code) => {
       consoleWindow.webContents.send('console-output', `Script finished with code ${code}`);
+      if (code === 0) {
+        event.sender.send('script-exit-status', true);
+        new Notification({
+          title: 'Pre-Requisites Check',
+          body: 'All pre-requisites are installed successfully.',
+        }).show();
+      } else {
+        event.sender.send('script-exit-status', false);
+        dialog.showErrorBox('Pre-Requisites Check Failed', `Failed to execute prerequisites script successfully with exit code ${code}.`);
+      }
     });
+
   });
 });
 
