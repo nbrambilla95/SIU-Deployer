@@ -1,8 +1,8 @@
 {
-  "host": "tesis.psi.unc.edu.ar",
-  "dbname": "toba_3",
-  "scheme": "toba",
-  "port": "5432",
-  "dbusername": "prueba",
-  "dbpassword": "1234"
+  "host": "prueba.unc.edu.ar",
+  "dbname": "toba_prueba",
+  "scheme": "business",
+  "port": "8080",
+  "dbusername": "tesis",
+  "dbpassword": "siste"
 }
