@@ -7,9 +7,18 @@ is_package_installed() {
     dpkg -l "$1" &>/dev/null
 }
 
-echo 'Adding repository from ondrej and updating packages'
-add-apt-repository -y ppa:ondrej/php
-apt-get update
+# Function to check if a PPA is already added
+is_ppa_added() {
+    grep -h "^deb .*ondrej/php" /etc/apt/sources.list.d/* > /dev/null 2>&1
+}
+
+echo 'Checking and adding Ondrej PHP repository'
+if ! is_ppa_added; then
+    add-apt-repository -y ppa:ondrej/php
+    apt-get update
+else
+    echo 'Ondrej PHP repository is already added'
+fi
 
 # Check and install Apache if not installed
 if ! is_package_installed apache2; then
