@@ -114,6 +114,48 @@ ipcMain.on('upload-database-config', (event, data) => {
   }
 });
 
+// Listener de la funcion 'save-settings'.
+ipcMain.on('save-settings', (event, data) => {
+  // Convertir data a un JSON string
+  const jsonData = JSON.stringify(data, null, 2); // Con null y 2 genera el formato pretty
+
+  // Get the parent directory of the current directory (__dirname)
+  const parentDir = path.join(__dirname, '..');
+
+  // Escribir dato a un archivo
+  fs.writeFile(parentDir + '/settings-config.json', jsonData, (err) => {
+      if (err) {
+        console.error('Error writing to file:', err);
+        event.reply('save-to-file-reply', { success: false, error: err.message });
+      } else {
+        console.log('Data saved to file successfully.');
+        event.reply('save-to-file-reply', { success: true });
+      }
+  });
+});
+
+// // Listener de la funcion 'upload-settings-config'.
+// ipcMain.on('upload-settings-config', (event, data) => {
+//   // Read database configuration from JSON file
+//   const settingsConfig = JSON.parse(fs.readFileSync('settings-config.json', 'utf8'));
+//   var scriptFileName = "";
+//   switch (data){
+//     case 'autogestion':
+//       console.log('Inside the upload of Autogestion.');
+//       scriptFileName = "autogestion-deploy.sh";
+//       writeToAutogestion(scriptFileName,databaseConfig,event);
+//       break;
+//     case 'preinscripcion':
+//       console.log('Inside the upload of Preinscripcion.');
+//       scriptFileName = "autogestion-deploy.sh";
+//       writeToPreinscripcion(scriptFileName,databaseConfig,event);
+//       break;
+//     default:
+//       console.error(`Invalid channel: ${channel}`);
+//   }
+// });
+
+
 function writeToAutogestion(name,data,event) {
   // Get the parent directory of the current directory (__dirname)
   const parentDir = path.join(__dirname, '..');
