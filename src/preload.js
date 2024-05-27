@@ -8,6 +8,11 @@ contextBridge.exposeInMainWorld('api', {
     ipcRenderer.on('script-exit-status', (event, success) => {
       callback(success);
     });
+  },
+  onSelectedPath: (callback) => {
+    ipcRenderer.on('selected-path', (event, selectedPath) => {
+      callback(selectedPath);
+    });
   }
 });
 
@@ -23,7 +28,7 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
       case 'save-settings':
         ipcRenderer.send(channel, data);
         break;
-      case 'upload-settings-config':
+      case 'run-script':
         ipcRenderer.send(channel, data);
         break;
       default:

@@ -1,0 +1,16 @@
+{
+  "selectedPath": "/home/brambilla/Desktop/Test",
+  "database": {
+    "host": "asd",
+    "dbname": "asd",
+    "scheme": "asd",
+    "port": "23",
+    "dbusername": "as",
+    "dbpassword": "asd"
+  },
+  "scripts": {},
+  "environment": {},
+  "repo_url": "asd",
+  "repo_username": "asd",
+  "repo_password": "asd"
+}

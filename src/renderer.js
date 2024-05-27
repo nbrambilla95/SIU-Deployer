@@ -1,4 +1,12 @@
 window.addEventListener('DOMContentLoaded', () => {
+    let selectedPath = '';
+
+    // Recibir el path seleccionado
+    window.api.onSelectedPath((path) => {
+        selectedPath = path;
+        console.log('Path seleccionado:', selectedPath);
+    });
+
     const mainButtons = document.getElementById('container');
     const deployOptions = document.getElementById('deploy-options');
 
@@ -10,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const dbPortInput = document.getElementById('port');
     const dbUsernameInput = document.getElementById('dbusername');
     const dbPasswordInput = document.getElementById('dbpassword');
-    
+
     // Settings section
     const settingsOptions = document.getElementById('settings-options');
     const settingsUrl = document.getElementById('repo_url');
@@ -19,13 +27,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Prerequisites section
     const preRequisitesButton = document.getElementById('check-pre-requisites');
-    
+
     // Bloquear inicialmente todos los botones excepto el de prerrequisitos
     mainButtons.querySelectorAll('button').forEach(btn => btn.disabled = true);
 
     window.api.onScriptExitStatus((success) => {
-        if (success)
-            mainButtons.querySelectorAll('button').forEach(btn => btn.disabled = false);
+        if (success) mainButtons.querySelectorAll('button').forEach(btn => btn.disabled = false);
         // Siempre reactiva el botón después de ejecutar para permitir reintento
         preRequisitesButton.disabled = false;
     });
@@ -34,16 +41,14 @@ window.addEventListener('DOMContentLoaded', () => {
         window.api.openConsoleWindow('./scripts/bash/check-pre-requisites.sh');
         preRequisitesButton.disabled = true;
     });
-  
+
     document.getElementById('database').addEventListener('click', () => {
         console.log('Dentro de database');
         mainButtons.style.display = 'none';
         dbOptButton.style.display = 'flex';
     });
 
-    // handler para la accion de "save"
     document.getElementById('save-db').addEventListener('click', () => {
-        
         console.log('Dentro de save-db');
 
         const host = dbHostInput.value;
@@ -52,7 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const port = dbPortInput.value;
         const dbusername = dbUsernameInput.value;
         const dbpassword = dbPasswordInput.value;
-        
+
         // Enviar valores al main process.
         ipcRenderer.send('save-database', { host, dbname, scheme, port, dbusername, dbpassword });
     });
@@ -93,14 +98,11 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('save-set').addEventListener('click', () => {
-
         const repo_url = settingsUrl.value;
         const repo_username = settingsUsername.value;
         const repo_password = settingsPassword.value;
-    
+
         // Enviar valores al main process.
         ipcRenderer.send('save-settings', { repo_url, repo_username, repo_password });
     });
-
-
 });
