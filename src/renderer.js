@@ -37,9 +37,14 @@ window.addEventListener('DOMContentLoaded', () => {
     mainButtons.querySelectorAll('button').forEach(btn => btn.disabled = true);
 
     window.api.onScriptExitStatus((success) => {
-        if (success) mainButtons.querySelectorAll('button').forEach(btn => btn.disabled = false);
-        // Siempre reactiva el botón después de ejecutar para permitir reintento
-        preRequisitesButton.disabled = false;
+        if (success) {
+            mainButtons.querySelectorAll('button').forEach(btn => btn.disabled = false);
+            // Ocultar el botón de prerrequisitos si el script se ejecutó con éxito
+            preRequisitesButton.style.display = 'none';
+        } else {
+            // Siempre reactiva el botón después de ejecutar para permitir reintento
+            preRequisitesButton.disabled = false;
+        }
     });
 
     preRequisitesButton.addEventListener('click', () => {

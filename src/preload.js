@@ -13,6 +13,11 @@ contextBridge.exposeInMainWorld('api', {
     ipcRenderer.on('selected-path', (event, path) => {
       callback(path);
     });
+  },
+  onSaveToFileReply: (callback) => {
+    ipcRenderer.on('save-to-file-reply', (event, result) => {
+      callback(result);
+    });
   }
 });
 

@@ -4,10 +4,10 @@
     "host": "ooooo",
     "port": "88",
     "gestion": {
-      "dbname": "dbname1",
-      "schema": "dbschema1",
-      "dbusername": "dbusername1",
-      "dbpassword": "dbpassword1"
+      "dbname": "asd",
+      "schema": "zxc",
+      "dbusername": "vd",
+      "dbpassword": "sa"
     },
     "autogestion": {
       "dbname": "autogestion_db",
@@ -22,10 +22,10 @@
       "dbpassword": "preinscripcion_pass"
     },
     "kolla": {
-      "dbname": "kolla_db",
-      "schema": "public",
-      "dbusername": "kolla_user",
-      "dbpassword": "kolla_pass"
+      "dbname": "kolla",
+      "schema": "asdkolla",
+      "dbusername": "agdkolla",
+      "dbpassword": "aakolla"
     }
   },
   "scripts": {},
