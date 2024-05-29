@@ -4,10 +4,10 @@
     "host": "ooooo",
     "port": "88",
     "gestion": {
-      "dbname": "gestion_db",
-      "schema": "public",
-      "dbusername": "gestion_user",
-      "dbpassword": "gestion_pass"
+      "dbname": "dbname1",
+      "schema": "dbschema1",
+      "dbusername": "dbusername1",
+      "dbpassword": "dbpassword1"
     },
     "autogestion": {
       "dbname": "autogestion_db",

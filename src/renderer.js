@@ -24,8 +24,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const moduleDbUsernameInput = document.getElementById('module-dbusername');
     const moduleDbPasswordInput = document.getElementById('module-dbpassword');
 
-    const moduleButtons = ['gestion', 'autogestion', 'preinscripcion', 'kolla'];
-
     // Settings section
     const settingsOptions = document.getElementById('settings-options');
     const settingsUrl = document.getElementById('repo-url');
@@ -86,11 +84,47 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('gestion').addEventListener('click', () => {
-        window.api.openConsoleWindow('./scripts/bash/hello-world.sh');
+        currentModule = 'gestion';
+        deployOptions.style.display = 'none';
+        moduleDbOptButton.style.display = 'flex';
+        // window.api.openConsoleWindow('./scripts/bash/hello-world.sh');
     });
 
     document.getElementById('autogestion').addEventListener('click', () => {
-        ipcRenderer.send('upload-database-config','autogestion');
+        currentModule = 'autogestion';
+        deployOptions.style.display = 'none';
+        moduleDbOptButton.style.display = 'flex';
+        // ipcRenderer.send('upload-database-config','autogestion');
+    });
+
+    document.getElementById('preinscripcion').addEventListener('click', () => {
+        currentModule = 'preinscripcion';
+        deployOptions.style.display = 'none';
+        moduleDbOptButton.style.display = 'flex';
+    });
+
+    document.getElementById('kolla').addEventListener('click', () => {
+        currentModule = 'kolla';
+        deployOptions.style.display = 'none';
+        moduleDbOptButton.style.display = 'flex';
+    });
+
+    document.getElementById('save-module-db').addEventListener('click', () => {
+        console.log('Dentro de save-module-db');
+
+        const dbname = moduleDbNameInput.value;
+        const schema = moduleSchemaInput.value;
+        const dbusername = moduleDbUsernameInput.value;
+        const dbpassword = moduleDbPasswordInput.value;
+
+        // Enviar valores al main process.
+        ipcRenderer.send('save-module-database', { module: currentModule, dbname, schema, dbusername, dbpassword });
+    });
+
+    document.getElementById('back-module-db').addEventListener('click', () => {
+        console.log('Presiono back dentro de DB por Modulo');
+        moduleDbOptButton.style.display = 'none';
+        deployOptions.style.display = 'flex';
     });
 
     document.getElementById('settings').addEventListener('click', () => {
