@@ -7,16 +7,49 @@ const configDir = path.join(__dirname, 'config_files');
 const configPath = path.join(configDir, 'config.json');
 let config = {};
 
+// Crear el directorio si no existe
+if (!fs.existsSync(configDir)) {
+  fs.mkdirSync(configDir, { recursive: true });
+}
+
 // Leer la configuración desde el archivo JSON
 if (fs.existsSync(configPath)) {
   config = JSON.parse(fs.readFileSync(configPath));
 } else {
   config = {
-    selectedPath: '',
+    selectedPath: '/opt/proyectos',
     database: {
-      dbname: '',
-      dbusername: '',
-      dbpassword: ''
+      host: '',
+      port: '',
+      gestion: {
+        dbname: '',
+        schema: '',
+        dbusername: '',
+        dbpassword: ''
+      },
+      autogestion: {
+        dbname: '',
+        schema: '',
+        dbusername: '',
+        dbpassword: ''
+      },
+      preinscripcion: {
+        dbname: '',
+        schema: '',
+        dbusername: '',
+        dbpassword: ''
+      },
+      kolla: {
+        dbname: '',
+        schema: '',
+        dbusername: '',
+        dbpassword: ''
+      }
+    },
+    repository: {
+      url: '',
+      username: '',
+      password: ''
     },
     scripts: {},
     environment: {}
@@ -113,9 +146,10 @@ ipcMain.on('open-console', (event, scriptPath) => {
   });
 });
 
-// Listener de la funcion 'save-database'.
+// Listener de la función 'save-database'.
 ipcMain.on('save-database', (event, data) => {
-  config.database = data;
+  config.database.host = data.host;
+  config.database.port = data.port;
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
     if (err) {
       console.error('Error writing to file:', err);
@@ -127,22 +161,45 @@ ipcMain.on('save-database', (event, data) => {
   });
 });
 
-// Listener de la funcion 'save-settings'.
-ipcMain.on('save-settings', (event, data) => {
-  Object.assign(config, data);
+// Listener de la función 'save-module-database'.
+ipcMain.on('save-module-database', (event, data) => {
+  config.database[data.module] = {
+    dbname: data.dbname,
+    schema: data.schema,
+    dbusername: data.dbusername,
+    dbpassword: data.dbpassword
+  };
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
     if (err) {
       console.error('Error writing to file:', err);
       event.reply('save-to-file-reply', { success: false, error: err.message });
     } else {
-      console.log('Settings saved to file successfully.');
+      console.log('Data saved to file successfully.');
+      event.reply('save-to-file-reply', { success: true });
+    }
+  });
+});
+
+// Listener de la función 'save-settings'.
+ipcMain.on('save-settings', (event, data) => {
+  config.repository = {
+    url: data.repo_url,
+    username: data.repo_username,
+    password: data.repo_password
+  };
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+      event.reply('save-to-file-reply', { success: false, error: err.message });
+    } else {
+      console.log('Data saved to file successfully.');
       event.reply('save-to-file-reply', { success: true });
     }
   });
 });
 
 ipcMain.on('run-script', (event, data) => {
-  const scriptPath = path.join(__dirname, data.script);
+  const scriptPath = path.join(__dirname, 'src', 'scripts', data.script);
   const scriptEnv = Object.assign({}, process.env, { SELECTED_PATH: config.selectedPath });
 
   const script = spawn('/bin/bash', [scriptPath, config.selectedPath], { env: scriptEnv });
