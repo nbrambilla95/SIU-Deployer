@@ -23,29 +23,31 @@
         <button id="back-deploy">Back</button>
     </div>
 
-    <!-- Update version button space -->
-
-    <!--  -->
-
     <!-- Database Section -->
     <div id="database-options" style="display: none;">
         <input type="text" id="host" placeholder="Host">
-        <input type="text" id="dbname" placeholder="DB Name">
-        <input type="text" id="scheme" placeholder="Scheme">
         <input type="number" id="port" placeholder="Port">
-        <input type="text" id="dbusername" placeholder="DB Username">
-        <input type="password" id="dbpassword" placeholder="DB Password">
         <button id="save-db">Save</button>
         <button id="back-db">Back</button>
     </div>
 
     <!-- Settings Section -->
     <div id="settings-options" style="display: none;">
-        <input type="text" id="repo_url" placeholder="Repository URL">
-        <input type="text" id="repo_username" placeholder="Repository Username">
-        <input type="password" id="repo_password" placeholder="Repository Password">
+        <input type="text" id="repo-url" placeholder="Repository URL">
+        <input type="text" id="repo-username" placeholder="Repository Username">
+        <input type="password" id="repo-password" placeholder="Repository Password">
         <button id="save-set">Save</button>
         <button id="back-set">Back</button>
+    </div>
+
+    <!-- Module Database Configuration Section -->
+    <div id="module-db-options" style="display: none;">
+        <input type="text" id="module-dbname" placeholder="DB Name">
+        <input type="text" id="module-schema" placeholder="Schema">
+        <input type="text" id="module-dbusername" placeholder="DB Username">
+        <input type="password" id="module-dbpassword" placeholder="DB Password">
+        <button id="save-module-db">Save</button>
+        <button id="back-module-db">Back</button>
     </div>
 
     <script src="index.js"></script>

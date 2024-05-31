@@ -1,0 +1,38 @@
+{
+  "selectedPath": "/home/brambilla/Desktop/Test",
+  "database": {
+    "host": "ooooo",
+    "port": "88",
+    "gestion": {
+      "dbname": "asd",
+      "schema": "zxc",
+      "dbusername": "vd",
+      "dbpassword": "sa"
+    },
+    "autogestion": {
+      "dbname": "autogestion_db",
+      "schema": "public",
+      "dbusername": "autogestion_user",
+      "dbpassword": "autogestion_pass"
+    },
+    "preinscripcion": {
+      "dbname": "preinscripcion_db",
+      "schema": "public",
+      "dbusername": "preinscripcion_user",
+      "dbpassword": "preinscripcion_pass"
+    },
+    "kolla": {
+      "dbname": "kolla",
+      "schema": "asdkolla",
+      "dbusername": "agdkolla",
+      "dbpassword": "aakolla"
+    }
+  },
+  "scripts": {},
+  "environment": {},
+  "repository": {
+    "url": "kkkk",
+    "username": "kkkkkll",
+    "password": "lkjjk"
+  }
+}
