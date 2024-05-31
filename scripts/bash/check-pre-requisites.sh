@@ -19,9 +19,6 @@ if [ -z "$selected_path" ]; then
   exit 1
 fi
 
-# Aquí puedes continuar con el resto de tu script de pre-requisitos
-# Por ejemplo:
-# Tu lógica de verificación de pre-requisitos aquí
 # # Function to check if a package is installed
 # is_package_installed() {
 #     dpkg -l "$1" &>/dev/null
