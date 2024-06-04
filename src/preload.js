@@ -18,6 +18,17 @@ contextBridge.exposeInMainWorld('api', {
     ipcRenderer.on('save-to-file-reply', (event, result) => {
       callback(result);
     });
+  },
+  selectDirectory: () => {
+    ipcRenderer.send('select-directory');
+  },
+  onSetDirectory: (callback) => {
+    ipcRenderer.on('set-directory', (event, path) => {
+      callback(path);
+    });
+  },
+  setDirectory: (path) => {
+    ipcRenderer.send('set-directory', path);
   }
 });
 
@@ -30,13 +41,7 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
       case 'save-module-database':
         ipcRenderer.send(channel, data);
         break;
-      case 'upload-database-config':
-        ipcRenderer.send(channel, data);
-        break;
       case 'save-settings':
-        ipcRenderer.send(channel, data);
-        break;
-      case 'upload-settings-config':
         ipcRenderer.send(channel, data);
         break;
       case 'run-script':

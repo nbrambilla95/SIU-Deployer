@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, Notification } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('node:path');
 const { spawn } = require('child_process');
 const fs = require('fs');
@@ -6,6 +6,8 @@ const fs = require('fs');
 const configDir = path.join(__dirname, 'config_files');
 const configPath = path.join(configDir, 'config.json');
 let config = {};
+let mainWindow;
+let setupWindow;
 
 // Crear el directorio si no existe
 if (!fs.existsSync(configDir)) {
@@ -17,7 +19,7 @@ if (fs.existsSync(configPath)) {
   config = JSON.parse(fs.readFileSync(configPath));
 } else {
   config = {
-    selectedPath: '/opt/proyectos',
+    selectedPath: '',
     database: {
       host: '',
       port: '',
@@ -56,8 +58,8 @@ if (fs.existsSync(configPath)) {
   };
 }
 
-const createWindow = () => {
-  const mainWindow = new BrowserWindow({
+const createMainWindow = () => {
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -70,29 +72,42 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
   console.log('Electron version:', process.versions.electron);
   console.log('Chromium version:', process.versions.chrome);
+};
 
-  // Solicitar el directorio al inicio
-  dialog.showOpenDialog(mainWindow, {
-    properties: ['openDirectory'],
-    defaultPath: config.selectedPath
-  }).then(result => {
+const createSetupWindow = () => {
+  setupWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+    },
+    modal: true,
+    show: false,
+  });
+
+  setupWindow.loadFile(path.join(__dirname, 'setup.html'));
+  setupWindow.once('ready-to-show', () => {
+    setupWindow.show();
+  });
+
+  ipcMain.on('select-directory', async (event) => {
+    const result = await dialog.showOpenDialog({ properties: ['openDirectory'] });
     if (!result.canceled) {
-      config.selectedPath = result.filePaths[0];
-      console.log('Selected Path:', config.selectedPath);
-      // Guardar el path seleccionado en el archivo de configuración
-      fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-      // Enviar el path seleccionado al renderer process
-      mainWindow.webContents.send('selected-path', config.selectedPath);
-    } else {
-      app.quit();
+      const selectedPath = result.filePaths[0];
+      event.sender.send('set-directory', selectedPath);
     }
-  }).catch(err => {
-    console.log(err);
-    app.quit();
+  });
+
+  ipcMain.on('set-directory', (event, selectedPath) => {
+    config.selectedPath = selectedPath;
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    setupWindow.close();
+    createMainWindow();
   });
 };
 
-app.whenReady().then(createWindow);
+app.whenReady().then(createSetupWindow);
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -102,7 +117,7 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    createSetupWindow();
   }
 });
 
@@ -133,16 +148,10 @@ ipcMain.on('open-console', (event, scriptPath) => {
       consoleWindow.webContents.send('console-output', `Script finished with code ${code}`);
       if (code === 0) {
         event.sender.send('script-exit-status', true);
-        new Notification({
-          title: 'Pre-Requisites Check',
-          body: 'All pre-requisites are installed successfully.',
-        }).show();
       } else {
         event.sender.send('script-exit-status', false);
-        dialog.showErrorBox('Pre-Requisites Check Failed', `Failed to execute prerequisites script successfully with exit code ${code}.`);
       }
     });
-
   });
 });
 

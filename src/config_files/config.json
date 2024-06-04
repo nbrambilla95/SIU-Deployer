@@ -1,13 +1,13 @@
 {
-  "selectedPath": "/home/brambilla/Desktop/Test",
+  "selectedPath": "/home/brambilla/Desktop",
   "database": {
     "host": "ooooo",
     "port": "88",
     "gestion": {
-      "dbname": "asd",
-      "schema": "zxc",
-      "dbusername": "vd",
-      "dbpassword": "sa"
+      "dbname": "sadzxcxv",
+      "schema": "zvcxcvvxbn",
+      "dbusername": "bncbncb",
+      "dbpassword": "cbnvcbncbnc"
     },
     "autogestion": {
       "dbname": "autogestion_db",

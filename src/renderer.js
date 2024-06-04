@@ -99,7 +99,6 @@ window.addEventListener('DOMContentLoaded', () => {
         currentModule = 'autogestion';
         deployOptions.style.display = 'none';
         moduleDbOptButton.style.display = 'flex';
-        // ipcRenderer.send('upload-database-config','autogestion');
     });
 
     document.getElementById('preinscripcion').addEventListener('click', () => {
