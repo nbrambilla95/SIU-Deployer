@@ -178,6 +178,10 @@ ipcMain.on('save-module-database', (event, data) => {
     dbusername: data.dbusername,
     dbpassword: data.dbpassword
   };
+
+  // Descomentar la linea de abajo para forzar un error y testear
+  // event.reply('save-to-file-reply', { success: false, error: 'Forced error for testing purposes' });
+
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
     if (err) {
       console.error('Error writing to file:', err);

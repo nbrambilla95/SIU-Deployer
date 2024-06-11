@@ -115,14 +115,49 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('save-module-db').addEventListener('click', () => {
         console.log('Dentro de save-module-db');
-
+    
         const dbname = moduleDbNameInput.value;
         const schema = moduleSchemaInput.value;
         const dbusername = moduleDbUsernameInput.value;
         const dbpassword = moduleDbPasswordInput.value;
-
+    
         // Enviar valores al main process.
         ipcRenderer.send('save-module-database', { module: currentModule, dbname, schema, dbusername, dbpassword });
+    
+        // Limpiar los campos de entrada
+        moduleDbNameInput.value = '';
+        moduleSchemaInput.value = '';
+        moduleDbUsernameInput.value = '';
+        moduleDbPasswordInput.value = '';
+    
+        // Mostrar mensaje de éxito
+        const successMessage = document.createElement('p');
+        successMessage.textContent = 'Data saved successfully!';
+        successMessage.className = 'message success';
+    
+        document.body.appendChild(successMessage);
+    
+        // Eliminar el mensaje de éxito después de 5 segundos
+        setTimeout(() => {
+            document.body.removeChild(successMessage);
+        }, 5000);
+    });
+    
+    // Escuchar la respuesta del proceso principal para mostrar mensajes de error
+    window.api.onSaveToFileReply((result) => {
+        if (!result.success) {
+            // Mostrar mensaje de error
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = `Failed to save data: ${result.error}`;
+            errorMessage.className = 'message error';
+    
+            document.body.appendChild(errorMessage);
+    
+            // Eliminar el mensaje de error después de 5 segundos
+            setTimeout(() => {
+                document.body.removeChild(errorMessage);
+            }, 5000);
+        }
     });
 
     document.getElementById('back-module-db').addEventListener('click', () => {
