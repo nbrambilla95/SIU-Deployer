@@ -1,0 +1,19 @@
+.message {
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.message.success {
+    color: green;
+}
+
+.message.error {
+    color: red;
+}
