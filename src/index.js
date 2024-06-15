@@ -3,18 +3,55 @@ const path = require('node:path');
 const { spawn } = require('child_process');
 const fs = require('fs');
 
-const configDir = path.join(__dirname, 'config_files');
+const userDataPath = app.getPath('userData');
+const configDir = path.join(userDataPath, 'config_files');
 const configPath = path.join(configDir, 'config.json');
-let config = {};
-let mainWindow;
-let setupWindow;
+const scriptsDir = path.join(userDataPath, 'scripts');
+const scriptsSrcDir = process.env.NODE_ENV === 'development'
+  ? path.join(__dirname, 'scripts')
+  : path.join(process.resourcesPath, 'scripts');
 
 // Crear el directorio si no existe
 if (!fs.existsSync(configDir)) {
   fs.mkdirSync(configDir, { recursive: true });
 }
+if (!fs.existsSync(scriptsDir)) {
+  fs.mkdirSync(scriptsDir, { recursive: true });
+}
+
+// Copiar config.json y scripts si no existen
+const copyFileIfNotExists = (src, dest) => {
+  if (!fs.existsSync(dest)) {
+    fs.copyFileSync(src, dest);
+  }
+};
+
+copyFileIfNotExists(
+  process.env.NODE_ENV === 'development'
+    ? path.join(__dirname, 'config_files', 'config.json')
+    : path.join(process.resourcesPath, 'config_files', 'config.json'),
+  configPath
+);
+
+const copyScripts = (srcDir, destDir) => {
+  fs.readdirSync(srcDir).forEach(file => {
+    const srcFile = path.join(srcDir, file);
+    const destFile = path.join(destDir, file);
+    if (fs.lstatSync(srcFile).isDirectory()) {
+      if (!fs.existsSync(destFile)) {
+        fs.mkdirSync(destFile, { recursive: true });
+      }
+      copyScripts(srcFile, destFile);
+    } else {
+      copyFileIfNotExists(srcFile, destFile);
+    }
+  });
+};
+
+copyScripts(scriptsSrcDir, scriptsDir);
 
 // Leer la configuración desde el archivo JSON
+let config = {};
 if (fs.existsSync(configPath)) {
   config = JSON.parse(fs.readFileSync(configPath));
 } else {
@@ -70,8 +107,6 @@ const createMainWindow = () => {
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
   mainWindow.webContents.openDevTools();
-  console.log('Electron version:', process.versions.electron);
-  console.log('Chromium version:', process.versions.chrome);
 };
 
 const createSetupWindow = () => {
@@ -134,7 +169,12 @@ ipcMain.on('open-console', (event, scriptPath) => {
   consoleWindow.loadFile(path.join(__dirname, 'console.html'));
 
   consoleWindow.webContents.once('did-finish-load', () => {
-    const script = spawn('/bin/bash', [scriptPath], { env: process.env });
+    const fullScriptPath = path.join(scriptsDir, scriptPath);
+    const scriptEnv = Object.assign({}, process.env, { SELECTED_PATH: config.selectedPath });
+
+    console.log(`Running script: ${fullScriptPath}`);
+
+    const script = spawn('/bin/bash', [fullScriptPath, configPath], { env: scriptEnv });
 
     script.stdout.on('data', (data) => {
       consoleWindow.webContents.send('console-output', data.toString());
@@ -179,9 +219,6 @@ ipcMain.on('save-module-database', (event, data) => {
     dbpassword: data.dbpassword
   };
 
-  // Descomentar la linea de abajo para forzar un error y testear
-  // event.reply('save-to-file-reply', { success: false, error: 'Forced error for testing purposes' });
-
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
     if (err) {
       console.error('Error writing to file:', err);
@@ -212,7 +249,7 @@ ipcMain.on('save-settings', (event, data) => {
 });
 
 ipcMain.on('run-script', (event, data) => {
-  const scriptPath = path.join(__dirname, 'src', 'scripts', data.script);
+  const scriptPath = path.join(scriptsDir, data.script);
   const scriptEnv = Object.assign({}, process.env, { SELECTED_PATH: config.selectedPath });
 
   const script = spawn('/bin/bash', [scriptPath, config.selectedPath], { env: scriptEnv });

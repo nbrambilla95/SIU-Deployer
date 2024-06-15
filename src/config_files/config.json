@@ -1,38 +1,38 @@
 {
-  "selectedPath": "/home/brambilla/Desktop",
+  "selectedPath": "",
   "database": {
-    "host": "ooooo",
-    "port": "88",
+    "host": "",
+    "port": "",
     "gestion": {
-      "dbname": "sadzxcxv",
-      "schema": "zvcxcvvxbn",
-      "dbusername": "bncbncb",
-      "dbpassword": "cbnvcbncbnc"
+      "dbname": "",
+      "schema": "",
+      "dbusername": "",
+      "dbpassword": ""
     },
     "autogestion": {
-      "dbname": "autogestion_db",
-      "schema": "public",
-      "dbusername": "autogestion_user",
-      "dbpassword": "autogestion_pass"
+      "dbname": "",
+      "schema": "",
+      "dbusername": "",
+      "dbpassword": ""
     },
     "preinscripcion": {
-      "dbname": "preinscripcion_db",
-      "schema": "public",
-      "dbusername": "preinscripcion_user",
-      "dbpassword": "preinscripcion_pass"
+      "dbname": "",
+      "schema": "",
+      "dbusername": "",
+      "dbpassword": ""
     },
     "kolla": {
-      "dbname": "kolla",
-      "schema": "asdkolla",
-      "dbusername": "agdkolla",
-      "dbpassword": "aakolla"
+      "dbname": "",
+      "schema": "",
+      "dbusername": "",
+      "dbpassword": ""
     }
   },
   "scripts": {},
   "environment": {},
   "repository": {
-    "url": "kkkk",
-    "username": "kkkkkll",
-    "password": "lkjjk"
+    "url": "",
+    "username": "",
+    "password": ""
   }
 }

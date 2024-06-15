@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     preRequisitesButton.addEventListener('click', () => {
-        window.api.openConsoleWindow('./scripts/bash/check-pre-requisites.sh');
+        window.api.openConsoleWindow('bash/check-pre-requisites.sh');
         preRequisitesButton.disabled = true;
     });
 

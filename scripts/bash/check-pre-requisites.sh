@@ -2,10 +2,8 @@
 
 set -euxo pipefail
 
-#!/bin/bash
-
 # Ruta al archivo de configuración JSON
-config_file="src/config_files/config.json"
+config_file="$1"
 if [[ -f "$config_file" ]]; then
   selected_path=$(jq -r '.selectedPath' "$config_file")
 else
@@ -18,6 +16,8 @@ if [ -z "$selected_path" ]; then
   echo "Path de instalación no proporcionado"
   exit 1
 fi
+
+echo "Path de instalación: $selected_path"
 
 # # Function to check if a package is installed
 # is_package_installed() {

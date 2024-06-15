@@ -9,7 +9,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "echo \"No linting configured\"",
+    "dist": "electron-builder"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.3.1",
@@ -20,7 +21,36 @@
     "@electron-forge/plugin-auto-unpack-natives": "^7.3.1",
     "@electron-forge/plugin-fuses": "^7.2.0",
     "@electron/fuses": "^1.7.0",
-    "electron": "latest"
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.example.siu-deployer",
+    "productName": "siu-deployer",
+    "files": [
+      "src/**/*",
+      "scripts/*",
+      "package.json"
+    ],
+    "extraResources": [
+    {
+      "from": "src/config_files",
+      "to": "config_files"
+    },
+    {
+      "from": "scripts/bash",
+      "to": "scripts/bash"
+    },
+    {
+      "from": "scripts/expect",
+      "to": "scripts/expect"
+    }],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
   },
   "keywords": [],
   "author": {
