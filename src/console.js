@@ -9,14 +9,17 @@ window.addEventListener('DOMContentLoaded', () => {
       return;
     }
     isProcessing = true;
-    const data = outputQueue.shift();
-    outputElement.textContent += data;
+    const { data, isError } = outputQueue.shift();
+    const span = document.createElement('span');
+    span.textContent = data;
+    span.style.color = isError ? 'red' : 'white'; // Estilos para diferenciar stdout y stderr
+    outputElement.appendChild(span);
     outputElement.scrollTop = outputElement.scrollHeight;
     setTimeout(processQueue, 50);
   };
 
-  window.consoleApi.onOutput((data) => {
-    outputQueue.push(data);
+  window.consoleApi.onOutput((data, isError = false) => {
+    outputQueue.push({ data, isError });
     if (!isProcessing) {
       processQueue();
     }
