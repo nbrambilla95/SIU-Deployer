@@ -20,13 +20,14 @@ if (!fs.existsSync(scriptsDir)) {
 }
 
 // Copiar config.json y scripts si no existen
-const copyFileIfNotExists = (src, dest) => {
-  if (!fs.existsSync(dest)) {
+const copyFileIfNotExistsOrNewer = (src, dest) => {
+  if (!fs.existsSync(dest) || fs.statSync(src).mtime > fs.statSync(dest).mtime) {
     fs.copyFileSync(src, dest);
+    console.log(`File copied: ${src} to ${dest}`);
   }
 };
 
-copyFileIfNotExists(
+copyFileIfNotExistsOrNewer(
   process.env.NODE_ENV === 'development'
     ? path.join(__dirname, 'config_files', 'config.json')
     : path.join(process.resourcesPath, 'config_files', 'config.json'),
@@ -43,7 +44,7 @@ const copyScripts = (srcDir, destDir) => {
       }
       copyScripts(srcFile, destFile);
     } else {
-      copyFileIfNotExists(srcFile, destFile);
+      copyFileIfNotExistsOrNewer(srcFile, destFile);
     }
   });
 };
