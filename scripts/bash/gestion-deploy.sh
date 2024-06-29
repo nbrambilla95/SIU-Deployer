@@ -5,6 +5,9 @@ set -x
 # opt proyectos variables
 export GESTION="/opt/proyectos/gestion"
 
+# apache2 directorio
+export APACHE2_AVAILABLE="/etc/apache2/sites-available/"
+
 # Ejecutar composer install en el directorio GESTION sin interacción
 composer install --no-interaction --working-dir=$GESTION
 
@@ -40,3 +43,8 @@ sed -i '/^\[guarani\]/,/^\[/ {/url =/s|url =.*|url = "/guarani/3.21"|}' $INSTANC
 "$SCRIPT_DIR/cargar-guarani.expect"
 systemctl restart apache2.service
 "$SCRIPT_DIR/instalar-guarani.expect"
+
+# Copiar conf de toba al apache
+cp $TOBA_INSTALACION_DIR/toba.conf $APACHE2_AVAILABLE/gestion.conf
+a2ensite gestion.conf
+service apache2 reload
