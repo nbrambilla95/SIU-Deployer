@@ -6,6 +6,9 @@ set timeout 300
 # Asume que GESTION está definido como una variable de entorno antes de ejecutar este script
 set gestion $env(GESTION)
 
+# Obtener la ruta al archivo de configuración JSON desde la variable de entorno
+set config_file $env(CONFIG_FILE)
+
 # Lanza el proceso de instalación
 spawn $gestion/bin/toba instalacion instalar
 
@@ -14,12 +17,12 @@ set alias "toba"
 set numDesarrollador "0"
 set esProduccion "n"
 set nombreInstalacion "toba-tesis"
-set ubicacionPostgres "TestHostname"
-set puertoPostgres "5432"
-set usuarioPostgres "TestUser"
-set clavePostgres "TestPassword"
-set baseDatos "TestDB"
-set schema "desarrollo"
+set ubicacionPostgres [exec jq -r {.database.host} $config_file]
+set puertoPostgres [exec jq -r {.database.port} $config_file]
+set usuarioPostgres [exec jq -r {.gestion.dbusername} $config_file]
+set clavePostgres [exec jq -r {.gestion.dbpassword} $config_file]
+set baseDatos [exec jq -r {.gestion.dbname} $config_file]
+set schema [exec jq -r {.gestion.schema} $config_file]
 set claveToba "toba"
 set modeloDatos "s"
 

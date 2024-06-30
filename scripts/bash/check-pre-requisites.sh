@@ -2,6 +2,9 @@
 
 set -euxo pipefail
 
+export SCRIPTS_DIR="$1"
+export CONFIG_FILE="$2"
+
 # Separador para ordenar mejor el output 
 print_separator() {
     local message=$1
@@ -10,9 +13,8 @@ print_separator() {
 }
 
 # Ruta al archivo de configuración JSON
-config_file="$1"
-if [[ -f "$config_file" ]]; then
-  selected_path=$(jq -r '.selectedPath' "$config_file")
+if [[ -f "$CONFIG_FILE" ]]; then
+  selected_path=$(jq -r '.selectedPath' "$CONFIG_FILE")
 else
   echo "Error: Config file not found"
   exit 1
