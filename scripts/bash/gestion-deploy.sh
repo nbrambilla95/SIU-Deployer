@@ -40,9 +40,9 @@ INSTANCIA_INI="$GESTION/instalacion/i__desarrollo/instancia.ini"
 # Modificar la linea url dentro del bloque de Guarani
 sed -i '/^\[guarani\]/,/^\[/ {/url =/s|url =.*|url = "/guarani/3.21"|}' $INSTANCIA_INI
 
-"$SCRIPTS_DIR/cargar-guarani.expect"
+"$SCRIPTS_DIR/expect/cargar-guarani.expect"
 systemctl restart apache2.service
-"$SCRIPTS_DIR/instalar-guarani.expect"
+"$SCRIPTS_DIR/expect/instalar-guarani.expect"
 
 # Copiar conf de toba al apache
 cp $TOBA_INSTALACION_DIR/toba.conf $APACHE2_AVAILABLE/gestion.conf
