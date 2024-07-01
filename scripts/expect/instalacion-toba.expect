@@ -19,10 +19,10 @@ set esProduccion "n"
 set nombreInstalacion "toba-tesis"
 set ubicacionPostgres [exec jq -r {.database.host} $config_file]
 set puertoPostgres [exec jq -r {.database.port} $config_file]
-set usuarioPostgres [exec jq -r {.gestion.dbusername} $config_file]
-set clavePostgres [exec jq -r {.gestion.dbpassword} $config_file]
-set baseDatos [exec jq -r {.gestion.dbname} $config_file]
-set schema [exec jq -r {.gestion.schema} $config_file]
+set usuarioPostgres [exec jq -r {.database.gestion.dbusername} $config_file]
+set clavePostgres [exec jq -r {.database.gestion.dbpassword} $config_file]
+set baseDatos [exec jq -r {.database.gestion.dbname} $config_file]
+set schema [exec jq -r {.database.gestion.schema} $config_file]
 set claveToba "toba"
 set modeloDatos "s"
 
