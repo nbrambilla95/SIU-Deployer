@@ -1,5 +1,6 @@
 #!/usr/bin/expect
 
+# Configura un timeout largo si es necesario
 set timeout 300
 
 # Asume que GESTION está definido como una variable de entorno antes de ejecutar este script
