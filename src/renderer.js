@@ -67,6 +67,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Enviar valores al main process.
         ipcRenderer.send('save-database', { host, port });
+
+        // Limpiar los campos de entrada
+        dbHostInput.value = '';
+        dbPortInput.value = '';
+
+        // Mostrar mensaje de éxito
+        const successMessage = document.createElement('p');
+        successMessage.textContent = 'Data saved successfully!';
+        successMessage.className = 'message success';
+
+        document.body.appendChild(successMessage);
+
+        // Eliminar el mensaje de éxito después de 5 segundos
+        setTimeout(() => {
+            document.body.removeChild(successMessage);
+        }, 5000);
     });
 
     document.getElementById('back-db').addEventListener('click', () => {
@@ -208,5 +224,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Enviar valores al main process.
         ipcRenderer.send('save-settings', { repo_url, repo_username, repo_password });
+
+        // Limpiar los campos de entrada
+        settingsUrl.value = '';
+        settingsUsername.value = '';
+        settingsPassword.value = '';
+
+        // Mostrar mensaje de éxito
+        const successMessage = document.createElement('p');
+        successMessage.textContent = 'Data saved successfully!';
+        successMessage.className = 'message success';
+
+        document.body.appendChild(successMessage);
+
+        // Eliminar el mensaje de éxito después de 5 segundos
+        setTimeout(() => {
+            document.body.removeChild(successMessage);
+        }, 5000);
     });
 });

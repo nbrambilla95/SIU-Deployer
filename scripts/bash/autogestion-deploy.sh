@@ -3,12 +3,11 @@
 set -x
 
 # Directorios del modulo Autogestion
-export CONFIG_FILE="$1"
+export SCRIPTS_DIR="$1"
+export CONFIG_FILE="$2"
+
 export AUTOGESTION="$(jq -r '.selectedPath' "$CONFIG_FILE")/autogestion"
 echo $AUTOGESTION
-
-# Obtiene el directorio actual donde se encuentra el script
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Armar los archivos de configuracion a partir de los templates
 cd $AUTOGESTION/instalacion && cp config_template.php config.php
