@@ -68,10 +68,6 @@ window.addEventListener('DOMContentLoaded', () => {
         // Enviar valores al main process.
         ipcRenderer.send('save-database', { host, port });
 
-        // Limpiar los campos de entrada
-        dbHostInput.value = '';
-        dbPortInput.value = '';
-
         // Mostrar mensaje de éxito
         const successMessage = document.createElement('p');
         successMessage.textContent = 'Data saved successfully!';
@@ -139,12 +135,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Enviar valores al main process.
         ipcRenderer.send('save-module-database', { module: currentModule, dbname, schema, dbusername, dbpassword });
-
-        // Limpiar los campos de entrada
-        moduleDbNameInput.value = '';
-        moduleSchemaInput.value = '';
-        moduleDbUsernameInput.value = '';
-        moduleDbPasswordInput.value = '';
 
         // Mostrar mensaje de éxito
         const successMessage = document.createElement('p');
@@ -224,11 +214,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Enviar valores al main process.
         ipcRenderer.send('save-settings', { repo_url, repo_username, repo_password });
-
-        // Limpiar los campos de entrada
-        settingsUrl.value = '';
-        settingsUsername.value = '';
-        settingsPassword.value = '';
 
         // Mostrar mensaje de éxito
         const successMessage = document.createElement('p');
