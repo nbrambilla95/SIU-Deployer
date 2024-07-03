@@ -41,6 +41,14 @@ else
     print_separator 'jq already installed'
 fi
 
+# Chequeando e instalando expect si no esta instalado
+if ! is_package_installed expect; then
+    print_separator 'Installing expect'
+    apt-get install -y expect
+else
+    print_separator 'expect already installed'
+fi
+
 # Funcion para checkear si PPA esta agregado
 is_ppa_added() {
     grep -h "^deb .*ondrej/php" /etc/apt/sources.list.d/* > /dev/null 2>&1
