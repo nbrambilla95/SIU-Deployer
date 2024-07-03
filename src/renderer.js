@@ -67,6 +67,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Enviar valores al main process.
         ipcRenderer.send('save-database', { host, port });
+
+        // Limpiar los campos de entrada
+        dbHostInput.value = '';
+        dbPortInput.value = '';
+
+        // Mostrar mensaje de éxito
+        const successMessage = document.createElement('p');
+        successMessage.textContent = 'Data saved successfully!';
+        successMessage.className = 'message success';
+
+        document.body.appendChild(successMessage);
+
+        // Eliminar el mensaje de éxito después de 5 segundos
+        setTimeout(() => {
+            document.body.removeChild(successMessage);
+        }, 5000);
     });
 
     document.getElementById('back-db').addEventListener('click', () => {
@@ -115,34 +131,56 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('save-module-db').addEventListener('click', () => {
         console.log('Dentro de save-module-db');
-    
+
         const dbname = moduleDbNameInput.value;
         const schema = moduleSchemaInput.value;
         const dbusername = moduleDbUsernameInput.value;
         const dbpassword = moduleDbPasswordInput.value;
-    
+
         // Enviar valores al main process.
         ipcRenderer.send('save-module-database', { module: currentModule, dbname, schema, dbusername, dbpassword });
-    
+
         // Limpiar los campos de entrada
         moduleDbNameInput.value = '';
         moduleSchemaInput.value = '';
         moduleDbUsernameInput.value = '';
         moduleDbPasswordInput.value = '';
-    
+
         // Mostrar mensaje de éxito
         const successMessage = document.createElement('p');
         successMessage.textContent = 'Data saved successfully!';
         successMessage.className = 'message success';
-    
+
         document.body.appendChild(successMessage);
-    
+
         // Eliminar el mensaje de éxito después de 5 segundos
         setTimeout(() => {
             document.body.removeChild(successMessage);
         }, 5000);
+
+        // Abrir la consola y ejecutar el script correspondiente
+        let scriptPath = '';
+        switch (currentModule) {
+            case 'gestion':
+                scriptPath = 'bash/gestion-deploy.sh';
+                break;
+            case 'autogestion':
+                scriptPath = 'bash/autogestion-deploy.sh';
+                break;
+            case 'preinscripcion':
+                scriptPath = 'bash/preinscripcion-deploy.sh';
+                break;
+            case 'kolla':
+                scriptPath = 'bash/kolla-deploy.sh';
+                break;
+            default:
+                console.log('No script defined for this module');
+                return;
+        }
+
+        window.api.openConsoleWindow(scriptPath);
     });
-    
+
     // Escuchar la respuesta del proceso principal para mostrar mensajes de error
     window.api.onSaveToFileReply((result) => {
         if (!result.success) {
@@ -150,9 +188,9 @@ window.addEventListener('DOMContentLoaded', () => {
             const errorMessage = document.createElement('p');
             errorMessage.textContent = `Failed to save data: ${result.error}`;
             errorMessage.className = 'message error';
-    
+
             document.body.appendChild(errorMessage);
-    
+
             // Eliminar el mensaje de error después de 5 segundos
             setTimeout(() => {
                 document.body.removeChild(errorMessage);
@@ -186,5 +224,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Enviar valores al main process.
         ipcRenderer.send('save-settings', { repo_url, repo_username, repo_password });
+
+        // Limpiar los campos de entrada
+        settingsUrl.value = '';
+        settingsUsername.value = '';
+        settingsPassword.value = '';
+
+        // Mostrar mensaje de éxito
+        const successMessage = document.createElement('p');
+        successMessage.textContent = 'Data saved successfully!';
+        successMessage.className = 'message success';
+
+        document.body.appendChild(successMessage);
+
+        // Eliminar el mensaje de éxito después de 5 segundos
+        setTimeout(() => {
+            document.body.removeChild(successMessage);
+        }, 5000);
     });
 });

@@ -1,0 +1,18 @@
+#!/usr/bin/expect
+
+# Configura un timeout largo si es necesario
+set timeout 300
+
+# Asume que GESTION está definido como una variable de entorno antes de ejecutar este script
+set gestion $env(GESTION)
+
+# Lanza el comando de carga de guaraní
+spawn $gestion/bin/guarani cargar -d $gestion
+
+# Espera por el prompt y envía 's' automáticamente
+expect "¿Desea agregar el alias de apache al archivo toba.conf?" {
+    send "s\r"
+}
+
+# Espera hasta que el proceso termine
+expect eof

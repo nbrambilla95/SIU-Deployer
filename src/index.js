@@ -107,7 +107,7 @@ const createMainWindow = () => {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 };
 
 const createSetupWindow = () => {
@@ -174,8 +174,10 @@ ipcMain.on('open-console', (event, scriptPath) => {
     const scriptEnv = Object.assign({}, process.env, { SELECTED_PATH: config.selectedPath });
 
     console.log(`Running script: ${fullScriptPath}`);
+    console.log(`Scripts path: ${scriptsDir}`);
+    console.log(`Config path: ${configPath}`);
 
-    const script = spawn('/bin/bash', [fullScriptPath, configPath], { env: scriptEnv });
+    const script = spawn('/bin/bash', [fullScriptPath, scriptsDir, configPath], { env: scriptEnv });
 
     script.stdout.on('data', (data) => {
       consoleWindow.webContents.send('console-output', data.toString());
