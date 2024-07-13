@@ -29,7 +29,10 @@ contextBridge.exposeInMainWorld('api', {
   },
   setDirectory: (path) => {
     ipcRenderer.send('set-directory', path);
-  }
+  },
+  invoke: (channel, data) => {
+    return ipcRenderer.invoke(channel, data);
+  },
 });
 
 contextBridge.exposeInMainWorld('ipcRenderer', {

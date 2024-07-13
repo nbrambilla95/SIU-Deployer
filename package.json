@@ -33,18 +33,19 @@
       "package.json"
     ],
     "extraResources": [
-    {
-      "from": "src/config_files",
-      "to": "config_files"
-    },
-    {
-      "from": "scripts/bash",
-      "to": "scripts/bash"
-    },
-    {
-      "from": "scripts/expect",
-      "to": "scripts/expect"
-    }],
+      {
+        "from": "src/config_files",
+        "to": "config_files"
+      },
+      {
+        "from": "scripts/bash",
+        "to": "scripts/bash"
+      },
+      {
+        "from": "scripts/expect",
+        "to": "scripts/expect"
+      }
+    ],
     "linux": {
       "target": [
         "AppImage",
@@ -60,6 +61,7 @@
   "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
+    "pg": "^8.12.0",
     "yarn": "^1.22.22"
   }
 }
