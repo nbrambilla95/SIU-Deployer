@@ -125,7 +125,7 @@ window.addEventListener('DOMContentLoaded', () => {
         moduleDbOptButton.style.display = 'flex';
     });
 
-    document.getElementById('save-module-db').addEventListener('click', () => {
+    document.getElementById('save-module-db').addEventListener('click', async () => {
         console.log('Dentro de save-module-db');
 
         const dbname = moduleDbNameInput.value;
@@ -148,27 +148,88 @@ window.addEventListener('DOMContentLoaded', () => {
             document.body.removeChild(successMessage);
         }, 5000);
 
-        // Abrir la consola y ejecutar el script correspondiente
-        let scriptPath = '';
-        switch (currentModule) {
-            case 'gestion':
-                scriptPath = 'bash/gestion-deploy.sh';
-                break;
-            case 'autogestion':
-                scriptPath = 'bash/autogestion-deploy.sh';
-                break;
-            case 'preinscripcion':
-                scriptPath = 'bash/preinscripcion-deploy.sh';
-                break;
-            case 'kolla':
-                scriptPath = 'bash/kolla-deploy.sh';
-                break;
-            default:
-                console.log('No script defined for this module');
-                return;
-        }
+        // Obtener valores del archivo JSON para `host` y `port`
+        const db_imported_host = await window.api.invoke('get-config-value', 'database.host');
+        const db_imported_port = await window.api.invoke('get-config-value', 'database.port');
 
-        window.api.openConsoleWindow(scriptPath);
+        // Crear objeto de configuración de la base de datos
+        const dbConfig = {
+            host: db_imported_host,
+            port: db_imported_port,
+            user: dbusername,
+            password: dbpassword,
+            database: dbname,
+        };
+
+        // Descomentar para tests manuales
+        // const dbConfig = {
+        //     host: 'localhost',
+        //     port: 5432,
+        //     user: 'testuser',
+        //     password: 'testpassword',
+        //     database: 'testdb',
+        // };
+
+        try {
+            // Verificar conexión a la base de datos antes de ejecutar el script de despliegue
+            const dbConnected = await window.api.invoke('verify-db-connection', dbConfig);
+    
+            if (dbConnected && dbConnected.success) {
+                console.log('Connected to PostgreSQL database');
+    
+                // Mostrar mensaje de éxito
+                const dbSuccessMessage = document.createElement('p');
+                dbSuccessMessage.textContent = `Connected to PostgreSQL database '${dbname}' on host '${db_imported_host}' as user '${dbusername}' successfully!`;
+                dbSuccessMessage.className = 'message success';
+    
+                document.body.appendChild(dbSuccessMessage);
+    
+                // Eliminar el mensaje de éxito después de 5 segundos
+                setTimeout(() => {
+                    document.body.removeChild(dbSuccessMessage);
+                }, 5000);
+    
+                // Determinar el script de despliegue correspondiente al módulo
+                let scriptPath = '';
+                switch (currentModule) {
+                    case 'gestion':
+                        scriptPath = 'bash/gestion-deploy.sh';
+                        break;
+                    case 'autogestion':
+                        scriptPath = 'bash/autogestion-deploy.sh';
+                        break;
+                    case 'preinscripcion':
+                        scriptPath = 'bash/preinscripcion-deploy.sh';
+                        break;
+                    case 'kolla':
+                        scriptPath = 'bash/kolla-deploy.sh';
+                        break;
+                    default:
+                        console.log('No script defined for this module');
+                        return;
+                }
+    
+                // Abrir la consola y ejecutar el script correspondiente
+                window.api.openConsoleWindow(scriptPath);
+            } else {
+                const errorMsg = dbConnected && dbConnected.error ? dbConnected.error : 'Unknown error';
+                throw new Error(errorMsg);
+            }
+        } catch (error) {
+            console.error('Error connecting to PostgreSQL database:', error.message);
+    
+            // Mostrar mensaje de error si la conexión a la base de datos falla
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = `Failed to connect to the database: ${error.message}`;
+            errorMessage.className = 'message error';
+    
+            document.body.appendChild(errorMessage);
+    
+            // Eliminar el mensaje de error después de 5 segundos
+            setTimeout(() => {
+                document.body.removeChild(errorMessage);
+            }, 5000);
+        }
     });
 
     // Escuchar la respuesta del proceso principal para mostrar mensajes de error

@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('node:path');
 const { spawn } = require('child_process');
 const fs = require('fs');
+const { Client } = require('pg');
 
 const userDataPath = app.getPath('userData');
 const configDir = path.join(userDataPath, 'config_files');
@@ -23,7 +24,8 @@ if (!fs.existsSync(scriptsDir)) {
 const copyFileIfNotExistsOrNewer = (src, dest) => {
   if (!fs.existsSync(dest) || fs.statSync(src).mtime > fs.statSync(dest).mtime) {
     fs.copyFileSync(src, dest);
-    console.log(`File copied: ${src} to ${dest}`);
+    // Descomentar para testear
+    //console.log(`File copied: ${src} to ${dest}`);
   }
 };
 
@@ -58,6 +60,7 @@ if (fs.existsSync(configPath)) {
 } else {
   config = {
     selectedPath: '',
+    actualModule: '',
     database: {
       host: '',
       port: '',
@@ -107,7 +110,7 @@ const createMainWindow = () => {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 };
 
 const createSetupWindow = () => {
@@ -173,9 +176,10 @@ ipcMain.on('open-console', (event, scriptPath) => {
     const fullScriptPath = path.join(scriptsDir, scriptPath);
     const scriptEnv = Object.assign({}, process.env, { SELECTED_PATH: config.selectedPath });
 
-    console.log(`Running script: ${fullScriptPath}`);
-    console.log(`Scripts path: ${scriptsDir}`);
-    console.log(`Config path: ${configPath}`);
+    // Descomentar para testear
+    // console.log(`Running script: ${fullScriptPath}`);
+    // console.log(`Scripts path: ${scriptsDir}`);
+    // console.log(`Config path: ${configPath}`);
 
     const script = spawn('/bin/bash', [fullScriptPath, scriptsDir, configPath], { env: scriptEnv });
 
@@ -215,6 +219,7 @@ ipcMain.on('save-database', (event, data) => {
 
 // Listener de la función 'save-module-database'.
 ipcMain.on('save-module-database', (event, data) => {
+  config.actualModule = data.module
   config.database[data.module] = {
     dbname: data.dbname,
     schema: data.schema,
@@ -268,4 +273,28 @@ ipcMain.on('run-script', (event, data) => {
   script.on('close', (code) => {
     event.sender.send('script-exit-status', code === 0);
   });
+});
+
+// Manejador para obtener valores de la configuración
+ipcMain.handle('get-config-value', (event, key) => {
+  const keys = key.split('.');
+  let value = config;
+  keys.forEach(k => {
+    value = value[k];
+  });
+  return value;
+});
+
+// Manejar la verificación de la conexión a la base de datos
+ipcMain.handle('verify-db-connection', async (event, dbConfig) => {
+  const client = new Client(dbConfig);
+
+  try {
+    await client.connect();
+    await client.end();
+    return { success: true };
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    return { success: false, error: error.message };
+  }
 });

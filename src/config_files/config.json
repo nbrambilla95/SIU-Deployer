@@ -1,5 +1,6 @@
 {
   "selectedPath": "",
+  "actualModule": "",
   "database": {
     "host": "",
     "port": "",
