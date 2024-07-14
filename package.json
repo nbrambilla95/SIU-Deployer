@@ -38,6 +38,10 @@
         "to": "config_files"
       },
       {
+        "from": "src/config_files/apache_conf",
+        "to": "apache_conf"
+      },
+      {
         "from": "scripts/bash",
         "to": "scripts/bash"
       },

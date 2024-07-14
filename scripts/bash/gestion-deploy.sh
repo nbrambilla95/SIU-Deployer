@@ -5,12 +5,13 @@ set -x
 # Directorios del modulo Gestion
 export SCRIPTS_DIR="$1"
 export CONFIG_FILE="$2"
+export APACHE_DIR="$3"
 
 export GESTION="$(jq -r '.selectedPath' "$CONFIG_FILE")/gestion"
 echo $GESTION
 
 # Apache2 directorio para sites-available
-export APACHE2_AVAILABLE="/etc/apache2/sites-available/"
+export APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
 
 # Ejecutar composer install en el directorio GESTION sin interacción
 composer install --no-interaction --working-dir=$GESTION
@@ -45,6 +46,6 @@ systemctl restart apache2.service
 sed -i '/^\[guarani\]/,/^\[/ {/url =/s|url =.*|url = "/guarani/3.21"|}' $INSTANCIA_INI
 
 # Copiar conf de toba al apache
-cp $TOBA_INSTALACION_DIR/toba.conf $APACHE2_AVAILABLE/gestion.conf
+cp $APACHE_DIR/gestion.conf $APACHE2_SITES_AVAILABLE/gestion.conf
 a2ensite gestion.conf
-service apache2 reload
+systemctl restart apache2.service

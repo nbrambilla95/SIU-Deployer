@@ -4,6 +4,7 @@ set -euxo pipefail
 
 export SCRIPTS_DIR="$1"
 export CONFIG_FILE="$2"
+export APACHE_DIR="$3"
 
 # Separador para ordenar mejor el output 
 print_separator() {
