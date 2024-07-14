@@ -7,6 +7,7 @@ const { Client } = require('pg');
 const userDataPath = app.getPath('userData');
 const configDir = path.join(userDataPath, 'config_files');
 const configPath = path.join(configDir, 'config.json');
+const apacheFilesDir = path.join(configDir, 'apache_conf');
 const scriptsDir = path.join(userDataPath, 'scripts');
 const scriptsSrcDir = process.env.NODE_ENV === 'development'
   ? path.join(__dirname, 'scripts')
@@ -19,13 +20,15 @@ if (!fs.existsSync(configDir)) {
 if (!fs.existsSync(scriptsDir)) {
   fs.mkdirSync(scriptsDir, { recursive: true });
 }
-
+if (!fs.existsSync(apacheFilesDir)) {
+  fs.mkdirSync(apacheFilesDir, { recursive: true });
+}
 // Copiar config.json y scripts si no existen
 const copyFileIfNotExistsOrNewer = (src, dest) => {
   if (!fs.existsSync(dest) || fs.statSync(src).mtime > fs.statSync(dest).mtime) {
     fs.copyFileSync(src, dest);
     // Descomentar para testear
-    //console.log(`File copied: ${src} to ${dest}`);
+    console.log(`File copied: ${src} to ${dest}`);
   }
 };
 
@@ -52,6 +55,28 @@ const copyScripts = (srcDir, destDir) => {
 };
 
 copyScripts(scriptsSrcDir, scriptsDir);
+
+const copyApacheConfigFiles = (srcDir, destDir) => {
+  fs.readdirSync(srcDir).forEach(file => {
+    const srcFile = path.join(srcDir, file);
+    const destFile = path.join(destDir, file);
+    if (fs.lstatSync(srcFile).isDirectory()) {
+      if (!fs.existsSync(destFile)) {
+        fs.mkdirSync(destFile, { recursive: true });
+      }
+      copyApacheConfigFiles(srcFile, destFile);
+    } else {
+      copyFileIfNotExistsOrNewer(srcFile, destFile);
+    }
+  });
+};
+
+copyApacheConfigFiles(
+  process.env.NODE_ENV === 'development'
+    ? path.join(__dirname, 'config_files', 'apache_conf')
+    : path.join(process.resourcesPath, 'config_files', 'apache_conf'),
+  apacheFilesDir
+);
 
 // Leer la configuración desde el archivo JSON
 let config = {};
@@ -181,7 +206,7 @@ ipcMain.on('open-console', (event, scriptPath) => {
     // console.log(`Scripts path: ${scriptsDir}`);
     // console.log(`Config path: ${configPath}`);
 
-    const script = spawn('/bin/bash', [fullScriptPath, scriptsDir, configPath], { env: scriptEnv });
+    const script = spawn('/bin/bash', [fullScriptPath, scriptsDir, configPath, apacheFilesDir], { env: scriptEnv });
 
     script.stdout.on('data', (data) => {
       consoleWindow.webContents.send('console-output', data.toString());

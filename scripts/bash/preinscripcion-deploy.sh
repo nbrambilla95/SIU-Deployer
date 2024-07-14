@@ -5,9 +5,13 @@ set -x
 # Directorios del modulo Preinscripcion
 export SCRIPTS_DIR="$1"
 export CONFIG_FILE="$2"
+export APACHE_DIR="$3"
 
 export PREINSCRIPCION="$(jq -r '.selectedPath' "$CONFIG_FILE")/preinscripcion"
 echo $PREINSCRIPCION
+
+# Apache2 directorio para sites-available
+export APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
 
 # Armar los archivos de configuracion a partir de los templates
 cd $PREINSCRIPCION/instalacion && cp config_template.php config.php
@@ -45,4 +49,6 @@ cd $PREINSCRIPCION && chown -R www-data:www-data instalacion/temp instalacion/lo
 # Ejecutar composer install en el directorio del proyecto sin interacción
 composer install --no-interaction --working-dir=$PREINSCRIPCION
 
+cp $APACHE_DIR/preinscripcion.conf $APACHE2_SITES_AVAILABLE/preinscripcion.conf
+a2ensite preinscripcion.conf
 systemctl restart apache2.service

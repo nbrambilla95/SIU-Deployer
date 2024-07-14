@@ -5,9 +5,13 @@ set -x
 # Directorios del modulo Preinscripcion
 export SCRIPTS_DIR="$1"
 export CONFIG_FILE="$2"
+export APACHE_DIR="$3"
 
 export KOLLA="$(jq -r '.selectedPath' "$CONFIG_FILE")/kolla"
 echo $KOLLA
+
+# Apache2 directorio para sites-available
+export APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
 
 # Ejecutar composer install en el directorio del proyecto sin interacción
 composer install --no-interaction --working-dir=$KOLLA
@@ -57,3 +61,7 @@ cd $KOLLA && ./bin/instalador proyecto:instalar
 
 # Cambiar el propietario y el grupo de los directorios
 chown -R www-data:www-data $KOLLA/*
+
+cp $APACHE_DIR/kolla.conf $APACHE2_SITES_AVAILABLE/kolla.conf
+a2ensite kolla.conf
+systemctl restart apache2.service

@@ -5,12 +5,16 @@ set -x
 # Directorios del modulo Autogestion
 export SCRIPTS_DIR="$1"
 export CONFIG_FILE="$2"
+export APACHE_DIR="$3"
 
 export GESTION="$(jq -r '.selectedPath' "$CONFIG_FILE")/gestion"
 echo $GESTION
 
 export AUTOGESTION="$(jq -r '.selectedPath' "$CONFIG_FILE")/autogestion"
 echo $AUTOGESTION
+
+# Apache2 directorio para sites-available
+export APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
 
 # Armar los archivos de configuracion a partir de los templates
 cd $AUTOGESTION/instalacion && cp config_template.php config.php
@@ -50,4 +54,6 @@ composer install --no-interaction --working-dir=$AUTOGESTION
 INSTALACION_INI="$GESTION/instalacion/instalacion.ini"
 sed -i '/^\[xslfo\]/i url3w = "/autogestion"' $INSTALACION_INI
 
+cp $APACHE_DIR/autogestion.conf $APACHE2_SITES_AVAILABLE/autogestion.conf
+a2ensite autogestion.conf
 systemctl restart apache2.service
