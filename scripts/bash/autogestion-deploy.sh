@@ -6,6 +6,9 @@ set -x
 export SCRIPTS_DIR="$1"
 export CONFIG_FILE="$2"
 
+export GESTION="$(jq -r '.selectedPath' "$CONFIG_FILE")/gestion"
+echo $GESTION
+
 export AUTOGESTION="$(jq -r '.selectedPath' "$CONFIG_FILE")/autogestion"
 echo $AUTOGESTION
 
