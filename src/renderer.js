@@ -173,22 +173,22 @@ window.addEventListener('DOMContentLoaded', () => {
         try {
             // Verificar conexión a la base de datos antes de ejecutar el script de despliegue
             const dbConnected = await window.api.invoke('verify-db-connection', dbConfig);
-    
+
             if (dbConnected && dbConnected.success) {
                 console.log('Connected to PostgreSQL database');
-    
+
                 // Mostrar mensaje de éxito
                 const dbSuccessMessage = document.createElement('p');
                 dbSuccessMessage.textContent = `Connected to PostgreSQL database '${dbname}' on host '${db_imported_host}' as user '${dbusername}' successfully!`;
                 dbSuccessMessage.className = 'message success';
-    
+
                 document.body.appendChild(dbSuccessMessage);
-    
+
                 // Eliminar el mensaje de éxito después de 5 segundos
                 setTimeout(() => {
                     document.body.removeChild(dbSuccessMessage);
                 }, 5000);
-    
+
                 // Determinar el script de despliegue correspondiente al módulo
                 let scriptPath = '';
                 switch (currentModule) {
@@ -208,7 +208,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         console.log('No script defined for this module');
                         return;
                 }
-    
+
                 // Abrir la consola y ejecutar el script correspondiente
                 window.api.openConsoleWindow(scriptPath);
             } else {
@@ -217,14 +217,14 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Error connecting to PostgreSQL database:', error.message);
-    
+
             // Mostrar mensaje de error si la conexión a la base de datos falla
             const errorMessage = document.createElement('p');
             errorMessage.textContent = `Failed to connect to the database: ${error.message}`;
             errorMessage.className = 'message error';
-    
+
             document.body.appendChild(errorMessage);
-    
+
             // Eliminar el mensaje de error después de 5 segundos
             setTimeout(() => {
                 document.body.removeChild(errorMessage);
@@ -251,6 +251,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('back-module-db').addEventListener('click', () => {
         console.log('Presiono back dentro de DB por Modulo');
+
+        // Limpiar los campos de entrada
+        moduleDbNameInput.value = '';
+        moduleSchemaInput.value = '';
+        moduleDbUsernameInput.value = '';
+        moduleDbPasswordInput.value = '';
+
         moduleDbOptButton.style.display = 'none';
         deployOptions.style.display = 'flex';
     });
