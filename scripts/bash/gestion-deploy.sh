@@ -39,7 +39,6 @@ echo -e "$FOP_LINE" >> "$INSTALACION_INI"
 INSTANCIA_INI="$GESTION/instalacion/i__desarrollo/instancia.ini"
 
 "$SCRIPTS_DIR/expect/cargar-guarani.expect"
-systemctl restart apache2.service
 "$SCRIPTS_DIR/expect/instalar-guarani.expect"
 
 # Modificar la linea url dentro del bloque de Guarani
