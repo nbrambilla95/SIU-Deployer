@@ -33,6 +33,9 @@ contextBridge.exposeInMainWorld('api', {
   invoke: (channel, data) => {
     return ipcRenderer.invoke(channel, data);
   },
+  selectDirectoryOrFile: async (type) => {
+    return ipcRenderer.invoke('select-directory-or-file', type);
+  },
 });
 
 contextBridge.exposeInMainWorld('ipcRenderer', {
@@ -45,6 +48,9 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
         ipcRenderer.send(channel, data);
         break;
       case 'save-settings':
+        ipcRenderer.send(channel, data);
+        break;
+      case 'save-kolla-update':
         ipcRenderer.send(channel, data);
         break;
       case 'run-script':

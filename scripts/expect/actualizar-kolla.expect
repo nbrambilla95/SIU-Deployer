@@ -1,0 +1,28 @@
+#!/usr/bin/expect
+
+# Set the timeout for expect commands
+set timeout 300
+
+# Asume que KOLLA y OLDKOLLA están definidos como variables de entorno antes de ejecutar este script
+set kolla $env(KOLLA)
+set oldkolla $env(OLDKOLLA)
+
+# Lanza el comando de actualizacion pasando como parametro la instalacion anterior
+spawn $kolla/bin/instalador proyecto:actualizar --instalacion-anterior $oldkolla
+
+# Expect each prompt and respond with "yes"
+expect {
+    "El proceso esta por iniciar. ¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "Verifique si los parámetros configuración son correctos. ¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "El chequeo de requerimientos se realizó correctamente, ¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    eof
+}

@@ -111,7 +111,9 @@ if (fs.existsSync(configPath)) {
         dbname: '',
         schema: '',
         dbusername: '',
-        dbpassword: ''
+        dbpassword: '',
+        kolla_rar: '',
+        kolla_new: ''
       }
     },
     repository: {
@@ -270,6 +272,36 @@ ipcMain.on('save-settings', (event, data) => {
     username: data.repo_username,
     password: data.repo_password
   };
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+      event.reply('save-to-file-reply', { success: false, error: err.message });
+    } else {
+      console.log('Data saved to file successfully.');
+      event.reply('save-to-file-reply', { success: true });
+    }
+  });
+});
+
+ipcMain.handle('select-directory-or-file', async (event, type) => {
+  const result = await dialog.showOpenDialog({
+    properties: type === 'file' ? ['openFile'] : ['openDirectory']
+  });
+
+  if (!result.canceled && result.filePaths.length > 0) {
+    return result.filePaths[0];
+  } else {
+    return null; // O maneja de otra manera si es necesario
+  }
+});
+
+// Listener de la función 'save-kolla-update'.
+ipcMain.on('save-kolla-update', (event, data) => {
+  config.database.kolla = {
+    kolla_rar: data.rarPath,
+    kolla_new: data.directoryPath
+  };
+
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
     if (err) {
       console.error('Error writing to file:', err);
