@@ -1,0 +1,17 @@
+#!/usr/bin/expect
+
+# Set the timeout for expect commands
+set timeout 300
+
+# Asume que KOLLA y OLDKOLLA están definidos como variables de entorno antes de ejecutar este script
+set kolla $env(KOLLA)
+
+# Lanza el comando para quitar modo mantenimiento
+spawn $kolla/bin/instalador instalacion:modo-mantenimiento --sin-mantenimiento
+
+# Expect each prompt and respond with "yes"
+expect {
+    "El proceso esta por iniciar. ¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "Usted desactivara el modo mantenimiento. ¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    eof
+}

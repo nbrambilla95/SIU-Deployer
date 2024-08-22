@@ -30,6 +30,13 @@ window.addEventListener('DOMContentLoaded', () => {
     const settingsUsername = document.getElementById('repo-username');
     const settingsPassword = document.getElementById('repo-password');
 
+    // Update section
+    const updateButton = document.getElementById('update');
+    const updateOptions = document.getElementById('update-options');
+    const backUpdateButton = document.getElementById('back-update');
+    const guaraniUpdateButton = document.getElementById('guarani-update');
+    const kollaUpdateButton = document.getElementById('kolla-update');
+
     // Prerequisites section
     const preRequisitesButton = document.getElementById('check-pre-requisites');
 
@@ -294,5 +301,79 @@ window.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             document.body.removeChild(successMessage);
         }, 5000);
+    });
+
+    // Mostrar opciones de update cuando se hace clic en "Update"
+    updateButton.addEventListener('click', () => {
+        console.log('Dentro de Update');
+        mainButtons.style.display = 'none';
+        updateOptions.style.display = 'flex';
+    });
+
+    // Regresar al menú principal desde "Update"
+    backUpdateButton.addEventListener('click', () => {
+        console.log('Presionó back dentro de Update');
+        updateOptions.style.display = 'none';
+        mainButtons.style.display = 'flex';
+    });
+
+    // Implementar la lógica cuando se selecciona Guaraní
+    guaraniUpdateButton.addEventListener('click', () => {
+        console.log('Seleccionado Guaraní para actualizar');
+        window.api.openConsoleWindow('bash/guarani-update.sh');
+    });
+
+    // Implementar la lógica cuando se selecciona Kolla
+    kollaUpdateButton.addEventListener('click', () => {
+        console.log('Seleccionado Kolla para actualizar');
+        document.getElementById('update-options').style.display = 'none';
+        document.getElementById('kolla-update-options').style.display = 'block';
+    });
+    
+    document.getElementById('select-kolla-rar').addEventListener('click', () => {
+        window.api.selectDirectoryOrFile('file').then((path) => {
+            document.getElementById('kolla-rar').value = path;
+        });
+    });
+    
+    document.getElementById('select-kolla-directory').addEventListener('click', () => {
+        window.api.selectDirectoryOrFile('directory').then((path) => {
+            document.getElementById('kolla-directory').value = path;
+        });
+    });
+    
+    document.getElementById('save-kolla-update').addEventListener('click', () => {
+        const kollaRarPath = document.getElementById('kolla-rar').value;
+        const kollaDirectoryPath = document.getElementById('kolla-directory').value;
+    
+        if (kollaRarPath && kollaDirectoryPath) {
+            ipcRenderer.send('save-kolla-update', { rarPath: kollaRarPath, directoryPath: kollaDirectoryPath });
+    
+            // Mostrar un mensaje de éxito y limpiar los inputs
+            const successMessage = document.createElement('p');
+            successMessage.textContent = 'Datos de Kolla guardados exitosamente!';
+            successMessage.className = 'message success';
+            document.body.appendChild(successMessage);
+            window.api.openConsoleWindow('bash/kolla-update.sh');
+    
+            setTimeout(() => {
+                document.body.removeChild(successMessage);
+            }, 5000);
+        } else {
+            // Mostrar un mensaje de error si falta alguno de los paths
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = 'Por favor, selecciona ambos paths.';
+            errorMessage.className = 'message error';
+            document.body.appendChild(errorMessage);
+    
+            setTimeout(() => {
+                document.body.removeChild(errorMessage);
+            }, 5000);
+        }
+    });
+    
+    document.getElementById('back-kolla-update').addEventListener('click', () => {
+        document.getElementById('kolla-update-options').style.display = 'none';
+        document.getElementById('update-options').style.display = 'flex';
     });
 });
