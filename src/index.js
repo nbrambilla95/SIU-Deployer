@@ -99,17 +99,18 @@ if (fs.existsSync(configPath)) {
         dbname: '',
         schema: '',
         dbusername: '',
-        dbpassword: ''
+        dbpassword: '',
+        email:''
       },
       preinscripcion: {
         dbname: '',
         schema: '',
         dbusername: '',
-        dbpassword: ''
+        dbpassword: '',
+        email:''
       },
       kolla: {
         dbname: '',
-        schema: '',
         dbusername: '',
         dbpassword: '',
         kolla_rar: '',
