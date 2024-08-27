@@ -336,6 +336,12 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
     
+    document.getElementById('select-kolla-old-directory').addEventListener('click', () => {
+        window.api.selectDirectoryOrFile('directory').then((path) => {
+            document.getElementById('kolla-old-directory').value = path;
+        });
+    });
+
     document.getElementById('select-kolla-directory').addEventListener('click', () => {
         window.api.selectDirectoryOrFile('directory').then((path) => {
             document.getElementById('kolla-directory').value = path;
@@ -345,9 +351,10 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('save-kolla-update').addEventListener('click', () => {
         const kollaRarPath = document.getElementById('kolla-rar').value;
         const kollaDirectoryPath = document.getElementById('kolla-directory').value;
+        const kollaOldDirectoryPath = document.getElementById('kolla-old-directory').value;
     
-        if (kollaRarPath && kollaDirectoryPath) {
-            ipcRenderer.send('save-kolla-update', { rarPath: kollaRarPath, directoryPath: kollaDirectoryPath });
+        if (kollaRarPath && kollaDirectoryPath && kollaOldDirectoryPath) {
+            ipcRenderer.send('save-kolla-update', { rarPath: kollaRarPath, directoryPath: kollaDirectoryPath, oldDirectoryPath: kollaOldDirectoryPath });
     
             // Mostrar un mensaje de éxito y limpiar los inputs
             const successMessage = document.createElement('p');
@@ -362,7 +369,7 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             // Mostrar un mensaje de error si falta alguno de los paths
             const errorMessage = document.createElement('p');
-            errorMessage.textContent = 'Por favor, selecciona ambos paths.';
+            errorMessage.textContent = 'Por favor, selecciona los paths.';
             errorMessage.className = 'message error';
             document.body.appendChild(errorMessage);
     

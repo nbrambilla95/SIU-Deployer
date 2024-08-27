@@ -36,11 +36,10 @@ FOP_LINE="[xslfo]\nfop=$GESTION/php/3ros/fop/fop"
 # Agregar la línea al final del archivo instalacion.ini
 echo -e "$FOP_LINE" >> "$INSTALACION_INI"
 
-INSTANCIA_INI="$GESTION/instalacion/i__desarrollo/instancia.ini"
-
 "$SCRIPTS_DIR/expect/cargar-guarani.expect"
-systemctl restart apache2.service
 "$SCRIPTS_DIR/expect/instalar-guarani.expect"
+
+INSTANCIA_INI="$GESTION/instalacion/i__desarrollo/instancia.ini"
 
 # Modificar la linea url dentro del bloque de Guarani
 sed -i '/^\[guarani\]/,/^\[/ {/url =/s|url =.*|url = "/guarani/3.21"|}' $INSTANCIA_INI

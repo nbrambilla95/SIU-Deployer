@@ -7,7 +7,7 @@ export SCRIPTS_DIR="$1"
 export CONFIG_FILE="$2"
 export APACHE_DIR="$3"
 
-export OLDKOLLA="$(jq -r '.selectedPath' "$CONFIG_FILE")/kolla"
+export OLDKOLLA="$(jq -r '.database.kolla.kolla_old' "$CONFIG_FILE")"
 echo $OLDKOLLA
 export INSTALL="$(jq -r '.database.kolla.kolla_rar' "$CONFIG_FILE")"
 echo $INSTALL
@@ -62,8 +62,11 @@ sed -i '/^\[kolla\]/a\usar_perfiles_propios = "1"' $OLDKOLLA/instalacion/i__prod
 #Cambiar owner de los archivos.
 chown -R www-data:www-data $KOLLA
 
-#Configurar el servidor web (crear el enlace simbólico al toba.conf del proyecto).
-#PENDIENTE
+#Configurar el servidor web
+# Apache2 directorio para sites-available
+export APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
+
+sed -i "s|$OLDKOLLA|$KOLLA|g" $APACHE2_SITES_AVAILABLE/kolla.conf
 
 #Quitar el modo mantenimiento del proyecto.
 "$SCRIPT_DIR/expect/modo-mantenimiento-off.expect"

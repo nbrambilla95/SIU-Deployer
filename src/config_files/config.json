@@ -28,7 +28,8 @@
       "dbusername": "",
       "dbpassword": "",
       "kolla_rar": "",
-      "kolla_new": ""
+      "kolla_new": "",
+      "kolla_old": ""
     }
   },
   "scripts": {},

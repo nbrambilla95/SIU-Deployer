@@ -46,9 +46,6 @@ cd $AUTOGESTION && chmod 775 -R instalacion src
 # Ejecutar composer install en el directorio del proyecto sin interacción
 composer install --no-interaction --working-dir=$AUTOGESTION
 
-# Recomendado usar un solo archivo de conf, de lo contrario cargar el conf del projecto para apache.
-#ln -s $AUTOGESTION/instalacion/alias.conf /etc/apache2/sites-enabled/autogestion.conf
-
 # Se agregar 'url3w = "https://<url de Autogestion>"'
 # antes del bloque [xslfo] del archivo instalacion.ini de Gestion.
 INSTALACION_INI="$GESTION/instalacion/instalacion.ini"

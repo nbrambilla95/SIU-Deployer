@@ -28,7 +28,7 @@ const copyFileIfNotExistsOrNewer = (src, dest) => {
   if (!fs.existsSync(dest) || fs.statSync(src).mtime > fs.statSync(dest).mtime) {
     fs.copyFileSync(src, dest);
     // Descomentar para testear
-    console.log(`File copied: ${src} to ${dest}`);
+    // console.log(`File copied: ${src} to ${dest}`);
   }
 };
 
@@ -113,7 +113,8 @@ if (fs.existsSync(configPath)) {
         dbusername: '',
         dbpassword: '',
         kolla_rar: '',
-        kolla_new: ''
+        kolla_new: '',
+        kolla_old
       }
     },
     repository: {
@@ -137,7 +138,8 @@ const createMainWindow = () => {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  mainWindow.webContents.openDevTools();
+  // Descomentar para testear
+  // mainWindow.webContents.openDevTools();
 };
 
 const createSetupWindow = () => {
@@ -299,7 +301,8 @@ ipcMain.handle('select-directory-or-file', async (event, type) => {
 ipcMain.on('save-kolla-update', (event, data) => {
   config.database.kolla = {
     kolla_rar: data.rarPath,
-    kolla_new: data.directoryPath
+    kolla_new: data.directoryPath,
+    kolla_old: data.oldDirectoryPath
   };
 
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {

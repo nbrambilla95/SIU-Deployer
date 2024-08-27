@@ -32,15 +32,24 @@
     </div>
 
     <div id="kolla-update-options" style="display: none;">
-        <input type="text" id="kolla-rar" placeholder="Selecciona la ruta del archivo RAR" readonly>
-        <button id="select-kolla-rar">Seleccionar archivo RAR</button>
-    
-        <input type="text" id="kolla-directory" placeholder="Selecciona la ruta del directorio" readonly>
-        <button id="select-kolla-directory">Seleccionar directorio</button>
-    
-        <button id="save-kolla-update">Save</button>
-        <button id="back-kolla-update">Back</button>
-    </div>
+        <div class="kolla-option-row">
+          <input type="text" id="kolla-rar" placeholder="Archivo RAR" readonly>
+          <button id="select-kolla-rar">Seleccionar archivo RAR</button>
+        </div>
+        <div class="kolla-option-row">
+          <input type="text" id="kolla-old-directory" placeholder="Old Kolla" readonly>
+          <button id="select-kolla-old-directory">Seleccionar directorio kolla antiguo</button>
+        </div>
+        <div class="kolla-option-row">
+          <input type="text" id="kolla-directory" placeholder="New Kolla" readonly>
+          <button id="select-kolla-directory">Seleccionar directorio kolla nuevo</button>
+        </div>
+        <div class="kolla-option-row">
+          <button id="save-kolla-update">Save</button>
+          <button id="back-kolla-update">Back</button>
+        </div>
+      </div>
+      
 
     <!-- Database Section -->
     <div id="database-options" style="display: none;">
