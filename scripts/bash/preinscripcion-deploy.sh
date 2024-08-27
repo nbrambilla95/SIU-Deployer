@@ -43,6 +43,9 @@ sed -i "s|'port' => 'puerto_base_gestion',|'port' => '$PORT',|" $CONFIG_PHP
 sed -i "s|'pdo_user' => 'usuario_base_gestion',|'pdo_user' => '$PDO_USER_GUARANI',|" $CONFIG_PHP
 sed -i "s|'pdo_passwd' => 'password_base_gestion',|'pdo_passwd' => '$PDO_PASSWD_GUARANI',|" $CONFIG_PHP
 
+#Modificar el punto de acceso en el archivo de configuracion config.php
+sed -i "s|'[id_pto_acc]' =>|'[pre]' =>|" $CONFIG_PHP
+
 # Cambiar el propietario y el grupo de los directorios
 cd $PREINSCRIPCION && chown -R www-data:www-data instalacion/temp instalacion/log instalacion/cache src/siu/www
 
