@@ -171,8 +171,8 @@ window.addEventListener('DOMContentLoaded', () => {
     async function handleSaveModuleDb(module) {
         console.log(`Dentro de save-module-db para ${module}`);
 
-        let dbname, schema, dbusername, dbpassword, emailAyuda;
-
+        let dbname, schema, dbusername, dbpassword, emailAyuda, tobaDbname, tobaDbusername, tobaDbpassword;
+                
         switch (module) {
             case 'gestion':
                 dbname = document.getElementById('gestion-dbname').value;
@@ -198,13 +198,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 dbname = document.getElementById('kolla-dbname').value;
                 dbusername = document.getElementById('kolla-dbusername').value;
                 dbpassword = document.getElementById('kolla-dbpassword').value;
+                tobaDbname = document.getElementById('toba-dbname').value;
+                tobaDbusername = document.getElementById('toba-dbusername').value;
+                tobaDbpassword = document.getElementById('toba-dbpassword').value;
                 break;
             default:
                 console.error('Módulo no reconocido');
                 return;
         }
 
-        ipcRenderer.send('save-module-database', { module, dbname, schema, dbusername, dbpassword, emailAyuda });
+        ipcRenderer.send('save-module-database', { module, dbname, schema, dbusername, dbpassword, emailAyuda, tobaDbname, tobaDbusername, tobaDbpassword });
 
         try {
             const db_imported_host = await window.api.invoke('get-config-value', 'database.host');

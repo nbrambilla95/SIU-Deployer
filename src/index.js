@@ -115,7 +115,10 @@ if (fs.existsSync(configPath)) {
         dbpassword: '',
         kolla_rar: '',
         kolla_new: '',
-        kolla_old
+        kolla_old: '',
+        toba_dbname: '',
+        toba_dbusername: '',
+        toba_dbpassword: ''
       }
     },
     repository: {
@@ -255,7 +258,10 @@ ipcMain.on('save-module-database', (event, data) => {
     schema: data.schema,
     dbusername: data.dbusername,
     dbpassword: data.dbpassword,
-    email: data.emailAyuda
+    email: data.emailAyuda,
+    toba_dbname: data.tobaDbname,
+    toba_dbusername: data.toba_dbusername,
+    toba_dbpassword: data.toba_dbpassword
   };
 
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
