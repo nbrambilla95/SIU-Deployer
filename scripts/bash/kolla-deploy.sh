@@ -56,8 +56,8 @@ sed -i "s~TOBA_ALIAS_TOBA_USUARIOS=".*"~TOBA_ALIAS_TOBA_USUARIOS=\"$TOBA_ALIAS_T
 # Otorgar permiso de ejecucion al instalador
 cd $KOLLA && chmod +x $KOLLA/bin/instalador
 
-# Ejecutar el instalador del bin
-cd $KOLLA && ./bin/instalador proyecto:instalar 
+# Ejecutar el script de expect para manejar la instalación interactiva de Kolla
+"$SCRIPTS_DIR/expect/instalacion-kolla.expect"
 
 # Cambiar el propietario y el grupo de los directorios
 chown -R www-data:www-data $KOLLA/*

@@ -254,7 +254,8 @@ ipcMain.on('save-module-database', (event, data) => {
     dbname: data.dbname,
     schema: data.schema,
     dbusername: data.dbusername,
-    dbpassword: data.dbpassword
+    dbpassword: data.dbpassword,
+    email: data.emailAyuda
   };
 
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
