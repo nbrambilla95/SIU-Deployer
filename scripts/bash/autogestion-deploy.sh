@@ -13,6 +13,9 @@ echo $GESTION
 export AUTOGESTION="$(jq -r '.selectedPath' "$CONFIG_FILE")/autogestion"
 echo $AUTOGESTION
 
+export EMAIL_AYUDA="$(jq -r '.database.autogestion.email' "$CONFIG_FILE")"
+echo $EMAIL_AYUDA
+
 # Apache2 directorio para sites-available
 export APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
 
@@ -50,6 +53,9 @@ composer install --no-interaction --working-dir=$AUTOGESTION
 # antes del bloque [xslfo] del archivo instalacion.ini de Gestion.
 INSTALACION_INI="$GESTION/instalacion/instalacion.ini"
 sed -i '/^\[xslfo\]/i url3w = "/autogestion"' $INSTALACION_INI
+
+# Modificar el email de ayuda en el archivo de configuracion config.php
+sed -i "s|'email_ayuda' => '',|'email_ayuda' => '$EMAIL_AYUDA',|" $CONFIG_PHP
 
 cp $APACHE_DIR/autogestion.conf $APACHE2_SITES_AVAILABLE/autogestion.conf
 a2ensite autogestion.conf

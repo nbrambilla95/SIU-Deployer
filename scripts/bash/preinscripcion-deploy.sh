@@ -10,6 +10,9 @@ export APACHE_DIR="$3"
 export PREINSCRIPCION="$(jq -r '.selectedPath' "$CONFIG_FILE")/preinscripcion"
 echo $PREINSCRIPCION
 
+export EMAIL_AYUDA="$(jq -r '.database.preinscripcion.email' "$CONFIG_FILE")"
+echo $EMAIL_AYUDA
+
 # Apache2 directorio para sites-available
 export APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
 
@@ -43,8 +46,16 @@ sed -i "s|'port' => 'puerto_base_gestion',|'port' => '$PORT',|" $CONFIG_PHP
 sed -i "s|'pdo_user' => 'usuario_base_gestion',|'pdo_user' => '$PDO_USER_GUARANI',|" $CONFIG_PHP
 sed -i "s|'pdo_passwd' => 'password_base_gestion',|'pdo_passwd' => '$PDO_PASSWD_GUARANI',|" $CONFIG_PHP
 
-#Modificar el punto de acceso en el archivo de configuracion config.php
-sed -i "s|'[id_pto_acc]' =>|'[pre]' =>|" $CONFIG_PHP
+# Modificar el punto de acceso en el archivo de configuracion config.php
+sed -i "s|'\[id_pto_acc\]' =>|'pre' =>|" $CONFIG_PHP
+
+# Modificar el email de ayuda en el archivo de configuracion config.php
+sed -i "s|'email_ayuda' => '.*'|'email_ayuda' => '$EMAIL_AYUDA'|" $CONFIG_PHP
+
+# Modificar las configuraciones de SMTP en el archivo de configuracion config.php
+sed -i "s|'from' => '.*'|'from' => '$EMAIL_AYUDA'|" $CONFIG_PHP
+sed -i "s|'reply_to' => '.*'|'reply_to' => '$EMAIL_AYUDA'|" $CONFIG_PHP
+sed -i "s|'oauth2_email' => '.*'|'oauth2_email' => '$EMAIL_AYUDA'|" $CONFIG_PHP
 
 # Cambiar el propietario y el grupo de los directorios
 cd $PREINSCRIPCION && chown -R www-data:www-data instalacion/temp instalacion/log instalacion/cache src/siu/www
