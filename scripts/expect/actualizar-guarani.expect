@@ -8,10 +8,12 @@ set gestion $env(GESTION)
 # Lanza el comando de actualizacion pasando como parametro la instalacion anterior
 spawn $gestion/bin/toba instancia regenerar -i desarrollo
 
+set conservarDatos "n"
+
 # Maneja los prompts de manera flexible
 expect {
-    "Desea conservar datos locales como usuarios y logs?"{
-        send "n\r"
+    "Desea conservar datos locales como usuarios y logs?" {
+        send "$conservarDatos\r"
         exp_continue
     }
     eof {
