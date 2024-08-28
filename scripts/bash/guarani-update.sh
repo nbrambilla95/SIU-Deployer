@@ -3,6 +3,7 @@
 set -x
 
 # Directorios del modulo Gestion
+export SCRIPTS_DIR="$1"
 export CONFIG_FILE="$2"
 
 # opt proyectos variables
@@ -18,19 +19,18 @@ echo $SVN_USERNAME
 export SVN_PASSWORD="$(jq -r '.repository.password' "$CONFIG_FILE")"
 echo $SVN_PASSWORD
 
-export GESTION_BIN="$GESTION/bin"
-
 #Mover carpeta de procesos background de <path_guarani>/temp a <path_guarani>/instalacion/i__desarrollo/p__guarani/logs/
 mv $GESTION/temp $GESTION/instalacion/i__desarrollo/p__guarani/logs/
 
-# #Cambiar la versión del código a la nueva versión del sistema. (Requiere a svn working copy)
+# Cambiar la versión del código a la nueva versión del sistema. (Requiere a svn working copy)
 cd $GESTION && svn switch $SVN_URL --ignore-ancestry --username $SVN_USERNAME --password $SVN_PASSWORD
 
-# #Instalar dependencia via composer.
+# Instalar dependencia via composer.
 cd $GESTION && composer install
 
-# #Regenerar la instancia Toba dentro de la carpeta 'bin':
-cd $GESTION_BIN && ./toba instancia regenerar -i desarrollo
+# Ejecuto ./toba instancia regenerar -i desarrollo
+"$SCRIPTS_DIR/expect/actualizar-guarani.expect"
 
 # #Migrar la base de datos de negocio dentro de la carpeta 'bin':
+export GESTION_BIN="$GESTION/bin"
 cd $GESTION_BIN && ./guarani migrar_base
