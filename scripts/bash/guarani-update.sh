@@ -18,6 +18,8 @@ echo $SVN_USERNAME
 export SVN_PASSWORD="$(jq -r '.repository.password' "$CONFIG_FILE")"
 echo $SVN_PASSWORD
 
+export GESTION_BIN="$GESTION/bin"
+
 #Mover carpeta de procesos background de <path_guarani>/temp a <path_guarani>/instalacion/i__desarrollo/p__guarani/logs/
 mv $GESTION/temp $GESTION/instalacion/i__desarrollo/p__guarani/logs/
 
@@ -28,7 +30,7 @@ cd $GESTION && svn switch $SVN_URL --ignore-ancestry --username $SVN_USERNAME --
 cd $GESTION && composer install
 
 # #Regenerar la instancia Toba dentro de la carpeta 'bin':
-cd $GESTION && ./toba instancia regenerar -i desarrollo
+cd $GESTION_BIN && ./toba instancia regenerar -i desarrollo
 
 # #Migrar la base de datos de negocio dentro de la carpeta 'bin':
-cd $GESTION && ./guarani migrar_base
+cd $GESTION_BIN && ./guarani migrar_base
