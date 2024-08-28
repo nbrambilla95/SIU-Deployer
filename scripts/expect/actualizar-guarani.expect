@@ -11,7 +11,7 @@ spawn $gestion/bin/toba instancia regenerar -i desarrollo
 # Maneja los prompts de manera flexible
 expect {
     "Desea conservar datos locales como usuarios y logs?"{
-        send "yes\r"
+        send "n\r"
         exp_continue
     }
     eof {
