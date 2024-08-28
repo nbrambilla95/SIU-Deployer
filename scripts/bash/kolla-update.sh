@@ -14,9 +14,6 @@ echo $INSTALL
 export KOLLA="$(jq -r '.database.kolla.kolla_new' "$CONFIG_FILE")"
 echo $KOLLA
 
-# Obtiene el directorio actual donde se encuentra kolla-upgrade.sh
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-
 #En caso de tener una instalacion con auditoria.
 #pg_dump -a --disable-triggers -n <schema_kolla>_auditoria -h <host> -U <usuario> -p <puerto> -d <base_kolla> -f /path/al/archivo.sql
 
@@ -57,7 +54,7 @@ chmod +x $KOLLA/vendor/siu-toba/framework/bin/toba
 sed -i '/^\[kolla\]/a\usar_perfiles_propios = "1"' $OLDKOLLA/instalacion/i__produccion/instancia.ini
 
 #Actualizar (tomado de referencia Documentacion UNC).
-"$SCRIPT_DIR/expect/actualizar-kolla.expect"
+"$SCRIPTS_DIR/expect/actualizar-kolla.expect"
 
 #Cambiar owner de los archivos.
 chown -R www-data:www-data $KOLLA
@@ -69,7 +66,7 @@ export APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
 sed -i "s|$OLDKOLLA|$KOLLA|g" $APACHE2_SITES_AVAILABLE/kolla.conf
 
 #Quitar el modo mantenimiento del proyecto.
-"$SCRIPT_DIR/expect/modo-mantenimiento-off.expect"
+"$SCRIPTS_DIR/expect/modo-mantenimiento-off.expect"
 
 #Reiniciar el servidor web para que tome los nuevos cambios.
 systemctl restart apache2.service

@@ -172,7 +172,7 @@ window.addEventListener('DOMContentLoaded', () => {
         console.log(`Dentro de save-module-db para ${module}`);
 
         let dbname, schema, dbusername, dbpassword, emailAyuda, tobaDbname, tobaDbusername, tobaDbpassword;
-                
+
         switch (module) {
             case 'gestion':
                 dbname = document.getElementById('gestion-dbname').value;
@@ -213,14 +213,14 @@ window.addEventListener('DOMContentLoaded', () => {
             const db_imported_host = await window.api.invoke('get-config-value', 'database.host');
             const db_imported_port = await window.api.invoke('get-config-value', 'database.port');
 
-        // Crear objeto de configuración de la base de datos
-        const dbConfig = {
-            host: db_imported_host,
-            port: db_imported_port,
-            user: dbusername,
-            password: dbpassword,
-            database: dbname,
-        };
+            // Crear objeto de configuración de la base de datos
+            const dbConfig = {
+                host: db_imported_host,
+                port: db_imported_port,
+                user: dbusername,
+                password: dbpassword,
+                database: dbname,
+            };
 
             const dbConnected = await window.api.invoke('verify-db-connection', dbConfig);
 
@@ -344,7 +344,9 @@ window.addEventListener('DOMContentLoaded', () => {
     // Implementar la lógica cuando se selecciona Guaraní
     guaraniUpdateButton.addEventListener('click', () => {
         console.log('Seleccionado Guaraní para actualizar');
-        window.api.openConsoleWindow('bash/guarani-update.sh');
+        document.getElementById('update-options').style.display = 'none';
+        document.getElementById('gestion-update-options').style.display = 'block';
+        
     });
 
     // Implementar la lógica cuando se selecciona Kolla
@@ -369,6 +371,12 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('select-kolla-directory').addEventListener('click', () => {
         window.api.selectDirectoryOrFile('directory').then((path) => {
             document.getElementById('kolla-directory').value = path;
+        });
+    });
+
+    document.getElementById('select-gestion-directory').addEventListener('click', () => {
+        window.api.selectDirectoryOrFile('directory').then((path) => {
+            document.getElementById('gestion-directory').value = path;
         });
     });
 
@@ -405,6 +413,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('back-kolla-update').addEventListener('click', () => {
         document.getElementById('kolla-update-options').style.display = 'none';
+        document.getElementById('update-options').style.display = 'flex';
+    });
+
+    document.getElementById('back-gestion-update').addEventListener('click', () => {
+        document.getElementById('gestion-update-options').style.display = 'none';
         document.getElementById('update-options').style.display = 'flex';
     });
 
@@ -470,5 +483,38 @@ window.addEventListener('DOMContentLoaded', () => {
             dbpassword,
             emailAyuda
         });
+    });
+
+    document.getElementById('save-gestion-update').addEventListener('click', () => {
+        const gestionDirectoryPath = document.getElementById('gestion-directory').value;
+        const svnUrl = document.getElementById('svn-url').value;
+        const svnUsername = document.getElementById('svn-username').value;
+        const svnPassword = document.getElementById('svn-password').value;
+
+
+        if (gestionDirectoryPath && svnUrl && svnUsername && svnPassword) {
+            ipcRenderer.send('save-gestion-update', { directoryPath: gestionDirectoryPath, svnUrl: svnUrl, svnUsername: svnUsername, svnPassword: svnPassword });
+
+            // Mostrar un mensaje de éxito y limpiar los inputs
+            const successMessage = document.createElement('p');
+            successMessage.textContent = 'Datos de Gestion guardados exitosamente!';
+            successMessage.className = 'message success';
+            document.body.appendChild(successMessage);
+            window.api.openConsoleWindow('bash/guarani-update.sh');
+
+            setTimeout(() => {
+                document.body.removeChild(successMessage);
+            }, 5000);
+        } else {
+            // Mostrar un mensaje de error si falta alguno de los paths
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = 'Por favor, selecciona los paths.';
+            errorMessage.className = 'message error';
+            document.body.appendChild(errorMessage);
+
+            setTimeout(() => {
+                document.body.removeChild(errorMessage);
+            }, 5000);
+        }
     });
 });

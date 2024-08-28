@@ -8,7 +8,8 @@
       "dbname": "",
       "schema": "",
       "dbusername": "",
-      "dbpassword": ""
+      "dbpassword": "",
+      "directory": ""
     },
     "autogestion": {
       "dbname": "",

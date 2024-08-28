@@ -53,6 +53,9 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
       case 'save-kolla-update':
         ipcRenderer.send(channel, data);
         break;
+        case 'save-gestion-update':
+          ipcRenderer.send(channel, data);
+          break;
       case 'run-script':
         ipcRenderer.send(channel, data);
         break;

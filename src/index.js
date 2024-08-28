@@ -93,7 +93,8 @@ if (fs.existsSync(configPath)) {
         dbname: '',
         schema: '',
         dbusername: '',
-        dbpassword: ''
+        dbpassword: '',
+        gestion_directory: ''
       },
       autogestion: {
         dbname: '',
@@ -303,6 +304,28 @@ ipcMain.handle('select-directory-or-file', async (event, type) => {
   } else {
     return null; // O maneja de otra manera si es necesario
   }
+});
+
+// Listener de la función 'save-kolla-update'.
+ipcMain.on('save-gestion-update', (event, data) => {
+  config.database.gestion = {
+    directory: data.directoryPath
+  },
+  config.repository = {
+    url: data.svnUrl,
+    username: data.svnUsername,
+    password: data.svnPassword
+  };
+
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+      event.reply('save-to-file-reply', { success: false, error: err.message });
+    } else {
+      console.log('Data saved to file successfully.');
+      event.reply('save-to-file-reply', { success: true });
+    }
+  });
 });
 
 // Listener de la función 'save-kolla-update'.
