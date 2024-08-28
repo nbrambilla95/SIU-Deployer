@@ -260,8 +260,8 @@ ipcMain.on('save-module-database', (event, data) => {
     dbpassword: data.dbpassword,
     email: data.emailAyuda,
     toba_dbname: data.tobaDbname,
-    toba_dbusername: data.toba_dbusername,
-    toba_dbpassword: data.toba_dbpassword
+    toba_dbusername: data.tobaDbusername,
+    toba_dbpassword: data.tobaDbpassword
   };
 
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
