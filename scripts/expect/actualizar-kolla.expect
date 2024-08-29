@@ -12,17 +12,17 @@ spawn $kolla/bin/instalador proyecto:actualizar --instalacion-anterior $oldkolla
 
 # Expect each prompt and respond with "yes"
 expect {
-    "El proceso esta por iniciar. ¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "Verifique si los parámetros configuración son correctos. ¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "El chequeo de requerimientos se realizó correctamente, ¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "¿desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "El proceso esta por iniciar. ¿Desea continuar?" { send "yes\r"; exp_continue }
+    "¿Desea continuar?" { send "yes\r"; exp_continue }
+    "¿desea continuar?" { send "yes\r"; exp_continue }
+    "Verifique si los parámetros configuración son correctos. ¿Desea continuar?" { send "yes\r"; exp_continue }
+    "El chequeo de requerimientos se realizó correctamente, ¿desea continuar?" { send "yes\r"; exp_continue }
+    "¿desea continuar?" { send "yes\r"; exp_continue }
+    "¿desea continuar?" { send "yes\r"; exp_continue }
+    "¿desea continuar?" { send "yes\r"; exp_continue }
+    "¿desea continuar?" { send "yes\r"; exp_continue }
+    "¿desea continuar?" { send "yes\r"; exp_continue }
+    "¿desea continuar?" { send "yes\r"; exp_continue }
+    "¿desea continuar?" { send "yes\r"; exp_continue }
     eof
 }

@@ -28,9 +28,9 @@ PROYECTO_DB_USERNAME="$(jq -r '.database.kolla.dbusername' "$CONFIG_FILE")"
 PROYECTO_DB_PASSWORD="$(jq -r '.database.kolla.dbpassword' "$CONFIG_FILE")"
 TOBA_DB_HOST="$(jq -r '.database.host' "$CONFIG_FILE")"
 TOBA_DB_PORT="$(jq -r '.database.port' "$CONFIG_FILE")"
-TOBA_DB_DBNAME="$(jq -r '.database.gestion.dbname' "$CONFIG_FILE")"
-TOBA_DB_USERNAME="$(jq -r '.database.gestion.dbusername' "$CONFIG_FILE")"
-TOBA_DB_PASSWORD="$(jq -r '.database.gestion.dbpassword' "$CONFIG_FILE")"
+TOBA_DB_DBNAME="$(jq -r '.database.kolla.toba_dbname' "$CONFIG_FILE")"
+TOBA_DB_USERNAME="$(jq -r '.database.kolla.toba_dbusername' "$CONFIG_FILE")"
+TOBA_DB_PASSWORD="$(jq -r '.database.kolla.toba_dbpassword' "$CONFIG_FILE")"
 TOBA_PROYECTO_DIR="$KOLLA"
 TOBA_INSTALACION_DIR="$KOLLA/instalacion"
 TOBA_ALIAS_NUCLEO="/toba_kolla"
@@ -56,8 +56,8 @@ sed -i "s~TOBA_ALIAS_TOBA_USUARIOS=".*"~TOBA_ALIAS_TOBA_USUARIOS=\"$TOBA_ALIAS_T
 # Otorgar permiso de ejecucion al instalador
 cd $KOLLA && chmod +x $KOLLA/bin/instalador
 
-# Ejecutar el instalador del bin
-cd $KOLLA && ./bin/instalador proyecto:instalar 
+# Ejecutar el script de expect para manejar la instalación interactiva de Kolla
+"$SCRIPTS_DIR/expect/instalacion-kolla.expect"
 
 # Cambiar el propietario y el grupo de los directorios
 chown -R www-data:www-data $KOLLA/*

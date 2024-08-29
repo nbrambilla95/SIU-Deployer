@@ -93,7 +93,8 @@ if (fs.existsSync(configPath)) {
         dbname: '',
         schema: '',
         dbusername: '',
-        dbpassword: ''
+        dbpassword: '',
+        gestion_directory: ''
       },
       autogestion: {
         dbname: '',
@@ -115,7 +116,10 @@ if (fs.existsSync(configPath)) {
         dbpassword: '',
         kolla_rar: '',
         kolla_new: '',
-        kolla_old
+        kolla_old: '',
+        toba_dbname: '',
+        toba_dbusername: '',
+        toba_dbpassword: ''
       }
     },
     repository: {
@@ -254,7 +258,11 @@ ipcMain.on('save-module-database', (event, data) => {
     dbname: data.dbname,
     schema: data.schema,
     dbusername: data.dbusername,
-    dbpassword: data.dbpassword
+    dbpassword: data.dbpassword,
+    email: data.emailAyuda,
+    toba_dbname: data.tobaDbname,
+    toba_dbusername: data.tobaDbusername,
+    toba_dbpassword: data.tobaDbpassword
   };
 
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
@@ -296,6 +304,28 @@ ipcMain.handle('select-directory-or-file', async (event, type) => {
   } else {
     return null; // O maneja de otra manera si es necesario
   }
+});
+
+// Listener de la función 'save-kolla-update'.
+ipcMain.on('save-gestion-update', (event, data) => {
+  config.database.gestion = {
+    directory: data.directoryPath
+  },
+  config.repository = {
+    url: data.svnUrl,
+    username: data.svnUsername,
+    password: data.svnPassword
+  };
+
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2), (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+      event.reply('save-to-file-reply', { success: false, error: err.message });
+    } else {
+      console.log('Data saved to file successfully.');
+      event.reply('save-to-file-reply', { success: true });
+    }
+  });
 });
 
 // Listener de la función 'save-kolla-update'.

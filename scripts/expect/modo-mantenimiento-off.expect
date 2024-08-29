@@ -11,7 +11,7 @@ spawn $kolla/bin/instalador instalacion:modo-mantenimiento --sin-mantenimiento
 
 # Expect each prompt and respond with "yes"
 expect {
-    "El proceso esta por iniciar. ¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
-    "Usted desactivara el modo mantenimiento. ¿Desea continuar?  (yes/no) [yes]:" { send "yes\r"; exp_continue }
+    "El proceso esta por iniciar. ¿Desea continuar?" { send "yes\r"; exp_continue }
+    "Usted desactivara el modo mantenimiento. ¿Desea continuar?" { send "yes\r"; exp_continue }
     eof
 }

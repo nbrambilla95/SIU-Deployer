@@ -8,7 +8,8 @@
       "dbname": "",
       "schema": "",
       "dbusername": "",
-      "dbpassword": ""
+      "dbpassword": "",
+      "directory": ""
     },
     "autogestion": {
       "dbname": "",
@@ -30,7 +31,10 @@
       "dbpassword": "",
       "kolla_rar": "",
       "kolla_new": "",
-      "kolla_old": ""
+      "kolla_old": "",
+      "toba_dbname": "",
+      "toba_dbusername": "",
+      "toba_dbpassword": ""
     }
   },
   "scripts": {},
