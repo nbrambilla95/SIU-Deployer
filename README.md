@@ -10,7 +10,9 @@
 
 Antes de iniciar, asegúrate de cumplir con los siguientes requisitos:
 
-1. **Sistema Operativo**: Ubuntu 20.04 o superior (compatible con distribuciones basadas en Linux).
+### Para el desarrollo
+
+1. **Sistema Operativo**: Ubuntu 18.04 o superior (compatible con distribuciones basadas en Linux).
 2. **Dependencias necesarias**:
    - PHP 7.4 con módulos adicionales (pgsql, gd, curl, etc.).
    - Apache2 con soporte para módulos como `mod_rewrite`.
