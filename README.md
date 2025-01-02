@@ -72,9 +72,7 @@ La interfaz gráfica de **SIU-Deployer** incluye varias funcionalidades distribu
 ### 3. **Deploy**
 - **Descripción**: Permite desplegar módulos del Ecosistema SIU.
 - **Módulos disponibles**:
-  - Gestión
-  - Autogestión
-  - Preinscripción
+  - Guaraní (Gestión, Autogestión, Preinscripción).
   - Kolla
 - **Uso**:
   - Haz clic en el botón `Deploy`.
