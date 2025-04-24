@@ -32,28 +32,21 @@
     </div>
 
     <div id="kolla-update-options" style="display: none;">
-        <div class="kolla-option-row">
-            <input type="text" id="kolla-rar" placeholder="Archivo RAR" readonly>
-            <button id="select-kolla-rar">Seleccionar archivo RAR</button>
-        </div>
-        <div class="kolla-option-row">
-            <input type="text" id="kolla-old-directory" placeholder="Old Kolla" readonly>
-            <button id="select-kolla-old-directory">Seleccionar directorio kolla antiguo</button>
-        </div>
-        <div class="kolla-option-row">
-            <input type="text" id="kolla-directory" placeholder="New Kolla" readonly>
-            <button id="select-kolla-directory">Seleccionar directorio kolla nuevo</button>
-        </div>
-        <div class="kolla-option-row">
-            <button id="save-kolla-update">Save</button>
-            <button id="back-kolla-update">Back</button>
-        </div>
+        <h2 class="section-label">Kolla Update</h2>
+        <input type="text" id="kolla-rar" placeholder="RAR File" readonly>
+        <button id="select-kolla-rar">Select RAR</button>
+        <input type="text" id="kolla-old-directory" placeholder="Old Kolla" readonly>
+        <button id="select-kolla-old-directory">Select old directory</button>
+        <input type="text" id="kolla-directory" placeholder="New Kolla" readonly>
+        <button id="select-kolla-directory">Select new directory</button>
+        <button id="save-kolla-update">Save</button>
+        <button id="back-kolla-update">Back</button>
     </div>
 
     <div id="gestion-update-options" style="display: none;">
-        <h2 class="section-label">Gestion Update Entry Configuration</h2>
+        <h2 class="section-label">Gestion Update</h2>
         <input type="text" id="gestion-directory" placeholder="Gestion Directory" readonly>
-        <button id="select-gestion-directory">Seleccionar directorio Gestion</button>
+        <button id="select-gestion-directory">Select directory</button>
         <input type="text" id="svn-url" placeholder="SVN URL">
         <input type="text" id="svn-username" placeholder="SVN Username">
         <input type="password" id="svn-password" placeholder="SVN Password">
@@ -63,7 +56,7 @@
 
     <!-- Database Section -->
     <div id="database-options" style="display: none;">
-        <h2 class="section-label">Database Entry Configuration</h2>
+        <h2 class="section-label">Database</h2>
         <input type="text" id="host" placeholder="Host">
         <input type="number" id="port" placeholder="Port">
         <button id="save-db">Save</button>
@@ -72,7 +65,7 @@
 
     <!-- Settings Section -->
     <div id="settings-options" style="display: none;">
-        <h2 class="section-label">Settings Entry Configuration</h2>
+        <h2 class="section-label">Settings</h2>
         <input type="text" id="repo-url" placeholder="Repository URL">
         <input type="text" id="repo-username" placeholder="Repository Username">
         <input type="password" id="repo-password" placeholder="Repository Password">
@@ -82,7 +75,7 @@
 
     <!-- Div para Gestion -->
     <div id="gestion-options" style="display: none;">
-        <h2 class="section-label">Gestion Entry Configuration</h2>
+        <h2 class="section-label">Gestion</h2>
         <input type="text" id="gestion-dbname" placeholder="DB Name">
         <input type="text" id="gestion-schema" placeholder="Schema">
         <input type="text" id="gestion-dbusername" placeholder="DB Username">
@@ -93,31 +86,31 @@
 
     <!-- Div para Autogestión -->
     <div id="autogestion-options" style="display: none;">
-        <h2 class="section-label">Autogestion Entry Configuration</h2>
+        <h2 class="section-label">Autogestion</h2>
         <input type="text" id="autogestion-dbname" placeholder="DB Name">
         <input type="text" id="autogestion-schema" placeholder="Schema">
         <input type="text" id="autogestion-dbusername" placeholder="DB Username">
         <input type="password" id="autogestion-dbpassword" placeholder="DB Password">
-        <input type="text" id="autogestion-email-ayuda" placeholder="Email Ayuda">
+        <input type="text" id="autogestion-email-ayuda" placeholder="Email">
         <button id="save-autogestion-db">Save</button>
         <button id="back-autogestion-db">Back</button>
     </div>
 
     <!-- Div para Preinscripción -->
     <div id="preinscripcion-options" style="display: none;">
-        <h2 class="section-label">Preinscripcion Entry Configuration</h2>
+        <h2 class="section-label">Preinscripcion</h2>
         <input type="text" id="preinscripcion-dbname" placeholder="DB Name">
         <input type="text" id="preinscripcion-schema" placeholder="Schema">
         <input type="text" id="preinscripcion-dbusername" placeholder="DB Username">
         <input type="password" id="preinscripcion-dbpassword" placeholder="DB Password">
-        <input type="text" id="preinscripcion-email-ayuda" placeholder="Email Ayuda">
+        <input type="text" id="preinscripcion-email-ayuda" placeholder="Email">
         <button id="save-preinscripcion-db">Save</button>
         <button id="back-preinscripcion-db">Back</button>
     </div>
 
     <!-- Div para Kolla -->
     <div id="kolla-options" style="display: none;">
-        <h2 class="section-label">Kolla Entry Configuration</h2>
+        <h2 class="section-label">Kolla</h2>
         <input type="text" id="kolla-dbname" placeholder="DB Name">
         <input type="text" id="kolla-dbusername" placeholder="DB Username">
         <input type="password" id="kolla-dbpassword" placeholder="DB Password">

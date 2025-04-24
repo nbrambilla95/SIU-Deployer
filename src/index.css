@@ -1,125 +1,155 @@
-#container, #deploy-options, #update-options {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  height: 100vh;
-  padding: 20px;
-}
-
-button {
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 1em;
-  cursor: pointer;
-}
-
+/* Fondo con degradado */
 body {
-  background: url('./images/background_v2.jpeg');
-  background-size: cover;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-#database-options, #settings-options, #gestion-options, #autogestion-options, #preinscripcion-options, #kolla-options, #gestion-options {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
-
-input[type="text"], input[type="password"], input[type="number"] {
-  padding: 8px;
-  margin: 5px;
-  width: 200px;
-}
-
-button {
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 1em;
-  cursor: pointer;
-}
-
-.pre-requisites-btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: auto;
-  display: inline-block;
-  max-width: 200px;
-}
-
-.pre-requisites-btn:hover {
-  background-color: #45a049;
-}
-
-#main-buttons button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 5px;
-  background-color: #f2f2f2;
-  color: black;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#main-buttons button:hover {
-  background-color: #ddd;
-}
-
-#main-buttons button:disabled {
-  color: grey;
-  cursor: not-allowed;
-  background-color: #ccc;
-}
-
-#kolla-update-options {
+  background: linear-gradient(to right, #007BFF, #00BFFF);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
   height: 100vh;
-}
-
-.kolla-option-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 60%;
-  margin-bottom: 20px;
-}
-
-.kolla-option-row input[type="text"] {
-  flex-grow: 1;
-  margin-right: 20px;
-}
-
-.kolla-option-row button {
   margin: 0;
+  font-family: Arial, sans-serif;
 }
 
-#save-kolla-update, #back-kolla-update {
-  padding: 10px 20px;
-  font-size: 1em;
+/* Contenedor principal */
+#container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Botones generales */
+button {
+  padding: 12px 20px;
+  font-size: 1.2em;
   cursor: pointer;
-  margin-top: 20px;
-  width: 120px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007BFF;
+  color: white;
+  transition: background-color 0.3s;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  width: 200px;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
 }
 
-#kolla-update-options button {
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Botones especiales (verde) */
+.pre-requisites-btn {
+  background-color: #28a745;
+  padding: 15px 30px;
+  font-weight: bold;
   width: 100%;
+  max-width: 350px;
+}
+
+.pre-requisites-btn:hover {
+  background-color: #218838;
+}
+
+/* Botones deshabilitados */
+button:disabled {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+/* Botones de selección de archivo/directorio */
+.file-select-button {
+  width: 250px;
+  max-width: 100%;
+  padding: 10px 15px;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.file-select-button:hover {
+  background-color: #0056b3;
+}
+
+/* Sección de deploy y update */
+#deploy-options, #update-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Inputs globales */
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+  padding: 10px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Secciones de módulos */
+#database-options, #settings-options,
+#gestion-options, #autogestion-options,
+#preinscripcion-options, #kolla-options,
+#gestion-update-options, #kolla-update-options {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 400px;
+  text-align: center;
+  margin: auto;
+}
+
+/* Títulos */
+.section-label {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Separación entre botones Save y Back */
+#database-options button:not(:last-child),
+#settings-options button:not(:last-child),
+#gestion-options button:not(:last-child),
+#autogestion-options button:not(:last-child),
+#preinscripcion-options button:not(:last-child),
+#kolla-options button:not(:last-child),
+#gestion-update-options button:not(:last-child),
+#kolla-update-options button:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+/* Espaciado entre inputs */
+#database-options input:not(:last-child),
+#settings-options input:not(:last-child),
+#gestion-options input:not(:last-child),
+#autogestion-options input:not(:last-child),
+#preinscripcion-options input:not(:last-child),
+#kolla-options input:not(:last-child),
+#gestion-update-options input:not(:last-child),
+#kolla-update-options input:not(:last-child) {
+  margin-bottom: 10px;
 }
